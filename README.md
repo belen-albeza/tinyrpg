@@ -1,4 +1,4 @@
 Tiny RPG
 ========
 
-Waka waka
+Waka waka woka wi!
