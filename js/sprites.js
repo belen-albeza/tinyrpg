@@ -1,5 +1,8 @@
 function MapSprite(size, nodes) {
   var scope = this;
+
+  THREE.Object3D.call( this );
+  
   generateGeometry();
 
   function generateGeometry() {
@@ -17,14 +20,13 @@ function MapSprite(size, nodes) {
     var size = 50;
     var quad = new THREE.CubeGeometry(size, size, size);
 
-    scope.rootDrawable = new THREE.Object3D();
     var offsetX = 0;
     scope.graph.nodes.forEach(function(node) {
       var material = new THREE.MeshBasicMaterial({
         color: colors[node.type]});
       var drawable = new THREE.Mesh(quad, material);
       drawable.position.set(offsetX, 0, 1);
-      scope.rootDrawable.add(drawable);
+      scope.add(drawable);
 
       offsetX += (node.distance + 1) * size;
     });
@@ -32,25 +34,35 @@ function MapSprite(size, nodes) {
     var line = new THREE.Mesh(new THREE.CubeGeometry(offsetX, size / 4, size),
                               new THREE.MeshBasicMaterial({color: 0x666666}));
     line.position.x = offsetX / 2 - size / 2;
-    scope.rootDrawable.add(line);
+    scope.add( line );
   }
 }
+
+MapSprite.prototype = Object.create( THREE.Object3D.prototype );
 
 function HeroSprite(size) {
   var scope = this;
+
+  THREE.Object3D.call( this );
+
   generateGeometry();
 
   function generateGeometry() {
-    scope.rootDrawable = new THREE.Mesh(new THREE.SphereGeometry(size / 2),
-                                        new THREE.MeshBasicMaterial({
-                                          color: 0xff00ff}));
+    var geometry = new THREE.SphereGeometry( size / 2 ),
+        material = new THREE.MeshBasicMaterial({ color: 0xff00ff }),
+        mesh = new THREE.Mesh( geometry, material );
+
+    scope.add( mesh );
+
   }
 
   this.setPosition = function(x, y, z) {
-    scope.rootDrawable.position.x = x;
-    scope.rootDrawable.position.y = y;
-    if (z != undefined) scope.rootDrawable.position.z = z;
+    scope.position.x = x;
+    scope.position.y = y;
+    if (z != undefined) scope.position.z = z;
   };
 }
+
+HeroSprite.prototype = Object.create( THREE.Object3D.prototype );
 
 

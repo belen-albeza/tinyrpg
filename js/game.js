@@ -45,10 +45,10 @@ function Game(container) {
     scope.scene.add(scope.rootDrawable);
 
     scope.map = new Map(TILE_SIZE);
-    scope.rootDrawable.add(scope.map.sprite.rootDrawable);
+    scope.rootDrawable.add(scope.map.sprite);
 
     scope.hero = new Hero( scope.map );
-    scope.rootDrawable.add(scope.hero.sprite.rootDrawable);
+    scope.rootDrawable.add(scope.hero.sprite);
 
     onWindowResize();
     scope.render();

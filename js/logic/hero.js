@@ -3,7 +3,7 @@ function Hero( map ) {
   scope.positionIndex = 0;
 
   scope.sprite = new HeroSprite( map.tileSize );
-  scope.sprite.rootDrawable.position.z = 10;
+  scope.sprite.position.z = 10;
 
   this.setPositionIndex = function(x) {
     console.log( map );
@@ -11,7 +11,7 @@ function Hero( map ) {
       return;
     }
     scope.positionIndex = x;
-    scope.sprite.rootDrawable.position.x = x * map.tileSize;
+    scope.sprite.position.x = x * map.tileSize;
   };
 
   this.moveForward = function() {
