@@ -73,15 +73,15 @@ function Game(container) {
 
     var monster = new Monster( e.slot.contents.type );
     
-    combatRound( monster );
+    combatRound( monster, e.slot );
   }
 
-  function combatRound( monster ) {
-console.log('Combat round hero =', scope.hero.energy, 'monster=', monster.energy );
-console.log('Scope hero attack', scope.hero.attack, 'monster defense', monster.defense);
+  function combatRound( monster, slot ) {
+    console.log('Combat round hero =', scope.hero.energy, 'monster=', monster.energy );
+    console.log('Scope hero attack', scope.hero.attack, 'monster defense', monster.defense);
     var heroInflictedDamage = Math.max( 0, scope.hero.attack - monster.defense );
     monster.addEnergy( - heroInflictedDamage );
-console.log('heroinflicteddamage', heroInflictedDamage);
+    console.log('heroinflicteddamage', heroInflictedDamage);
     if( !monster.isDead() ) {
       var monsterInflictedDamage = Math.max( 0, monster.attack - scope.hero.defense );
       scope.hero.addEnergy( - monsterInflictedDamage );
@@ -89,7 +89,11 @@ console.log('heroinflicteddamage', heroInflictedDamage);
     }
 
     if( !scope.hero.isDead() && !monster.isDead() ) {
-      setTimeout( function() { combatRound( monster ); }, 2000 );
+      setTimeout( function() { combatRound( monster, slot ); }, 2000 );
+    } else if( ! scope.hero.isDead() && monster.isDead() ) {
+      gameState = STATE_EXPLORE;
+      scope.map.swapSlot(slot, new GraphNode(GraphNode.TYPE_ROAD));
+
     }
 
   }
