@@ -3,6 +3,13 @@ function Game(container) {
   var TILE_SIZE = 100;
   var cameraTarget = new THREE.Vector3(0, 0, 0);
 
+  var STATE_EXPLORE = 'play';
+  var STATE_COMBAT = 'combat';
+  var STATE_GAMEOVER = 'gameover';
+  var STATE_VICTORY = 'victory';
+
+  var gameState = STATE_EXPLORE;
+
   EventDispatcher.call(this);
 
   function onWindowResize() {
@@ -34,13 +41,17 @@ function Game(container) {
 
   function onKeyUp( e ) {
     var keyCode = e.keyCode;
+    if (gameState == STATE_EXPLORE) {
+      if( keyCode == 37 ) {
+        scope.hero.moveBackwards();
+        followHero();
+      } else if( keyCode == 39 ) {
+        scope.hero.moveForward();
+        followHero();
+      }
+    }
+    else if (gameState == STATE_GAMEOVER) {
 
-    if( keyCode == 37 ) {
-      scope.hero.moveBackwards();
-      followHero();
-    } else if( keyCode == 39 ) {
-      scope.hero.moveForward();
-      followHero();
     }
   }
 
@@ -49,7 +60,8 @@ function Game(container) {
   }
 
   function onHeroDied( e ) {
-    scope.dispatchEvent(e);
+    scope.dispatchEvent({type: 'gameover'});
+    gameState = STATE_GAMEOVER;
   }
 
   function onSlotArrived(e) {
@@ -89,6 +101,11 @@ function Game(container) {
     scope.rootDrawable.add( buildAxes( 10000 ) );
 
     onWindowResize();
+    scope.dispatchEvent({
+      type: 'statsChanged',
+      hero: scope.hero
+    });
+
     scope.render();
 
     setInterval(scope.update, 1000.0 / 30.0);
