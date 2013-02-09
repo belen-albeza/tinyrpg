@@ -102,7 +102,8 @@ function Game(container) {
           .easing( easing )
           .onStart(function() {
             monsterSprite.position.z = 300;
-          }),
+          })
+          .onComplete(monsterAttacks),
         monsterTweenBack = new TWEEN.Tween( monsterSprite.position )
           .to({ x: monsterSprite.position.x }, duration )
           .easing( easingBack )
@@ -124,13 +125,15 @@ function Game(container) {
       console.log('heroinflicteddamage', heroInflictedDamage);
     }
 
+    function monsterAttacks() {
+      var monsterInflictedDamage = Math.max( 0, 
+          monster.attack - scope.hero.defense );
+      scope.hero.addEnergy( - monsterInflictedDamage );
+      console.log( 'monsterInflictedDamage', monsterInflictedDamage);
+    }
+
     function monsterMayAttackHero() {
       if( !monster.isDead() ) {
-        var monsterInflictedDamage = Math.max( 0, 
-          monster.attack - scope.hero.defense );
-        scope.hero.addEnergy( - monsterInflictedDamage );
-        console.log( 'monsterInflictedDamage', monsterInflictedDamage);
-
         monsterTween.start();
       }
       else {
