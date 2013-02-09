@@ -48,6 +48,7 @@ function Game(container) {
       case GraphNode.TYPE_TREASURE:
         console.log('Treasure', slot.contents);
         scope.hero.earnMoney(slot.contents.money);
+        scope.map.swapSlot(slot, new GraphNode(GraphNode.TYPE_ROAD));
         break;
     }
   }

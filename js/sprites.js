@@ -24,6 +24,13 @@ function MapSprite(size, nodes) {
     return drawable;
   }
 
+  this.updateGeometry = function(index) {
+    var geometry = generateNodeGeometry(nodes[index]);
+    var slot = scope.slots.children[index];
+    slot.remove(slot.children[0]);
+    slot.add(geometry);
+  };
+
   function generateGeometry() {
     scope.graph = new Graph();
     scope.graph.generate();

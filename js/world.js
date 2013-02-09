@@ -1,6 +1,7 @@
 function GraphNode(type, contents) {
   this.type = type;
   this.contents = contents || {};
+  this.index = -1;
 }
 
 GraphNode.TYPE_TREASURE = 'treasure';
@@ -18,6 +19,7 @@ function Graph() {
   this.graphLength = 0;
 
   function addNode( node ) {
+    node.index = scope.nodes.length;
     scope.nodes.push( node );
   }
 
