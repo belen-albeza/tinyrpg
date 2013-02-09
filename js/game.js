@@ -1,24 +1,33 @@
 function Game(container) {
   var scope = this;
-  var TILE_SIZE = 50;
+  var TILE_SIZE = 100;
+  var cameraTarget = new THREE.Vector3(0, 0, 0);
 
   function onWindowResize() {
-    var width = window.innerWidth;
-    var height = window.innerHeight;
-    var cameraTarget = new THREE.Vector3(0, 0, 0);
+    scope.width = window.innerWidth;
+    scope.height = window.innerHeight;
 
     scope.camera.left = 0;
-    scope.camera.right = width;
+    scope.camera.right = scope.width;
     scope.camera.top = 0;
-    scope.camera.bottom = height;
+    scope.camera.bottom = scope.height;
     scope.camera.updateProjectionMatrix();
     scope.camera.position.z = 100;
     scope.camera.lookAt(cameraTarget);
 
-    scope.renderer.setSize(width, height);
+    scope.renderer.setSize(scope.width, scope.height);
 
-    scope.rootDrawable.position.x = TILE_SIZE;
-    scope.rootDrawable.position.y = height / 2;
+    scope.rootDrawable.position.x = 0;
+    scope.rootDrawable.position.y = scope.height / 2;
+
+    followHero();
+  }
+
+  function followHero() {
+    scope.camera.position.x = scope.rootDrawable.position.x +
+      scope.hero.sprite.position.x - scope.width / 2;
+    cameraTarget.x = scope.camera.position.x;
+    scope.camera.lookAt(cameraTarget);
   }
 
   function onKeyUp( e ) {
@@ -26,8 +35,10 @@ function Game(container) {
 
     if( keyCode == 37 ) {
       scope.hero.moveBackwards();
+      followHero();
     } else if( keyCode == 39 ) {
       scope.hero.moveForward();
+      followHero();
     }
   }
 
