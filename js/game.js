@@ -9,6 +9,7 @@ function Game(container) {
   var STATE_VICTORY = 'victory';
 
   var gameState = STATE_EXPLORE;
+  var combatTimeout = null;
 
   EventDispatcher.call(this);
 
@@ -57,6 +58,40 @@ function Game(container) {
 
   function onStatsChanged( e ) {
     scope.dispatchEvent(e);
+  }
+
+  function onCombatStarted( e ) {
+    if( gameState != STATE_EXPLORE ) {
+      return;
+    }
+
+    gameState = STATE_COMBAT;
+
+    if( combatTimeout !== null ) {
+      clearTimeout( combatTimeout );
+    }
+
+    var monster = new Monster( e.slot.contents.type );
+    
+    combatRound( monster );
+  }
+
+  function combatRound( monster ) {
+console.log('Combat round hero =', scope.hero.energy, 'monster=', monster.energy );
+console.log('Scope hero attack', scope.hero.attack, 'monster defense', monster.defense);
+    var heroInflictedDamage = Math.max( 0, scope.hero.attack - monster.defense );
+    monster.addEnergy( - heroInflictedDamage );
+console.log('heroinflicteddamage', heroInflictedDamage);
+    if( !monster.isDead() ) {
+      var monsterInflictedDamage = Math.max( 0, monster.attack - scope.hero.defense );
+      scope.hero.addEnergy( - monsterInflictedDamage );
+      console.log( 'monsterInflictedDamage', monsterInflictedDamage);
+    }
+
+    if( !scope.hero.isDead() && !monster.isDead() ) {
+      setTimeout( function() { combatRound( monster ); }, 2000 );
+    }
+
   }
 
   function onHeroDied( e ) {
@@ -112,6 +147,7 @@ function Game(container) {
     scope.hero.addEventListener('arrived', onSlotArrived, false);
     scope.hero.addEventListener('statsChanged', onStatsChanged, false);
     scope.hero.addEventListener('heroDied', onHeroDied, false);
+    scope.hero.addEventListener('combatStarted', onCombatStarted, false);
 
     scope.rootDrawable.add( buildAxes( 10000 ) );
 
@@ -129,6 +165,9 @@ function Game(container) {
   };
 
   this.update = function() {
+    if( gameState == STATE_COMBAT ) {
+      
+    }
   };
 
   this.render = function() {

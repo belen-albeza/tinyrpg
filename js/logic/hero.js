@@ -16,8 +16,10 @@ function Hero( map ) {
   };
 
   scope.energy = scope.MAX_ENERGY;
+  scope.attack = 5;
+  scope.defense = 5;
 
-  function addEnergy(value) {
+  this.addEnergy = function(value) {
     var oldEnergy = scope.energy;
 
     scope.energy += value;
@@ -32,7 +34,7 @@ function Hero( map ) {
         hero: scope
       });
     }
-  }
+  };
 
   function die() {
     console.log('DEATH');
@@ -40,6 +42,10 @@ function Hero( map ) {
       type: 'heroDied',
       hero: scope
     });
+  }
+
+  this.isDead = function() {
+    return this.energy <= 0;
   }
 
   this.restoreEnergy = function(index) {
@@ -51,23 +57,31 @@ function Hero( map ) {
       return;
     }
 
-    scope.positionIndex = index;
-    scope.sprite.position.x = index * map.tileSize;
+    var slot = map.getSlot( index );
 
-    var slot = map.getSlot(scope.positionIndex);
-    scope.dispatchEvent({
-      type: 'arrived',
-      slot: slot
-    }); 
+    if( slot.type == GraphNode.TYPE_BOSS ) {
+      scope.dispatchEvent({
+        type: 'combatStarted',
+        slot: slot
+      });
+    } else {
+      scope.positionIndex = index;
+      scope.sprite.position.x = index * map.tileSize;
+
+      scope.dispatchEvent({
+        type: 'arrived',
+        slot: slot
+      });
+    }
   };
 
   this.moveForward = function() {
-    addEnergy(-1);
+    this.addEnergy(-1);
     this.setPositionIndex( scope.positionIndex + 1);
   };
 
   this.moveBackwards = function() {
-    addEnergy(-1);
+    this.addEnergy(-1);
     this.setPositionIndex( scope.positionIndex - 1);
   };
 
