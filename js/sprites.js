@@ -17,23 +17,24 @@ function MapSprite(size, nodes) {
     scope.graph = new Graph();
     scope.graph.generate();
 
-    var size = 50;
-    var quad = new THREE.CubeGeometry(size, size, size);
+    var quad = new THREE.PlaneGeometry(size, size),
+        offsetX = 0;
 
-    var offsetX = 0;
     scope.graph.nodes.forEach(function(node) {
       var material = new THREE.MeshBasicMaterial({
         color: colors[node.type]});
       var drawable = new THREE.Mesh(quad, material);
       drawable.position.set(offsetX, 0, 1);
+      drawable.rotation.x = - Math.PI;
       scope.add(drawable);
 
       offsetX += (node.distance + 1) * size;
     });
 
-    var line = new THREE.Mesh(new THREE.CubeGeometry(offsetX, size / 4, size),
-                              new THREE.MeshBasicMaterial({color: 0x666666}));
+    var line = new THREE.Mesh(new THREE.PlaneGeometry(offsetX, size / 4, size ),
+                              new THREE.MeshBasicMaterial({color: 0x666666 }));
     line.position.x = offsetX / 2 - size / 2;
+    line.rotation.x = - Math.PI;
     scope.add( line );
   }
 }
@@ -48,11 +49,12 @@ function HeroSprite(size) {
   generateGeometry();
 
   function generateGeometry() {
-    var geometry = new THREE.SphereGeometry( size / 2 ),
+    var geometry = new THREE.PlaneGeometry( size, size ),
         material = new THREE.MeshBasicMaterial({ color: 0xff00ff }),
         mesh = new THREE.Mesh( geometry, material );
 
     scope.add( mesh );
+    mesh.rotation.x = - Math.PI;
 
   }
 
