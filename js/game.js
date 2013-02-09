@@ -38,6 +38,7 @@ function Game(container) {
       scope.hero.sprite.position.x - scope.width / 2;
     cameraTarget.x = scope.camera.position.x;
     scope.camera.lookAt(cameraTarget);
+    console.log('follow hero camera x', scope.camera.position.x);
   }
 
   function onKeyUp( e ) {
@@ -174,9 +175,27 @@ function Game(container) {
     console.log('Hero energy change', e.energy - e.oldEnergy);
   }
 
+  function localToWorld(obj) {
+    var local = obj.position.clone();
+    local.add(scope.rootDrawable.position);
+    return local;
+  }
+
+  function worldToScreen(position) {
+    var res = position;
+    res.x -= scope.camera.position.x;
+    return res;
+  }
+
   function onMonsterEnergyChanged( e ) {
     var monster = e.target;
     monster.updateEnergyBar();
+    var position = worldToScreen(localToWorld(monster.sprite));
+    var delta = e.energy - e.oldEnergy;
+
+    renderText(String(delta), position.x, position.y, '32px',
+               delta < 0 ? 0xff0000 : 0x00ff00,
+               1000);
     console.log('Monster energy change', e.energy - e.oldEnergy);
   }
 
@@ -208,6 +227,29 @@ function Game(container) {
         console.log('Shop');
         scope.hero.restoreEnergy();
         break;
+    }
+  }
+
+  function renderText(text, x, y, fontSize, color, destroyTime) {
+    var element = document.createElement('div');
+    element.style.position = 'absolute';
+    element.style['font-size'] = fontSize;
+    element.style.color = String(color);
+    element.style.left = x + 'px';
+    element.classList.add('animated');
+    element.innerHTML = text;
+    element.style.top = y + 'px';
+    container.appendChild(element);
+    setTimeout(function() {
+      element.style.top = (y - 100) + 'px';
+    }, 0);
+    console.log(element);
+    console.log(container);
+
+    if (destroyTime) {
+      setTimeout(function() {
+        container.removeChild(element);
+      }, destroyTime);
     }
   }
 
