@@ -1,79 +1,37 @@
 <!DOCTYPE html>
 <html>
-<head>
-<title>Tiny RPG</title>
-<meta charset="utf-8">
-<style>
-  * {
-    padding: 0px;
-    margin: 0px;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-  }
+	<head>
+		<title>Tiny RPG</title>
+		<meta charset="utf-8">
+		<link rel="stylesheet" href="style.css" media="all">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0, target-densitydpi=device-dpi" />
 
-  body {
-    overflow: hidden;
-    font-family: 'Courier', 'Courier New', monospace;
-    color: #fff;
-    background: #000;
-  }
-
-  #stats {
-    font-weight: bold;
-    position: absolute;
-    width: 60%;
-    top: 0;
-    left: 20%;
-    right: 20%;
-    color: #fff;
-    text-shadow: 1px 1px 1px #000;
-    background: rgba( 255, 255, 255, 0.5 );
-    padding: 4px;
-  }
-
-  #game_over, #victory {
-    font-size: 7rem;
-    text-align: center;
-    background: rgba(0, 0, 0, 0.7);
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    bottom: 0px;
-    right: 0px;
-  }
-
-  #game_over p, #victory p {
-    padding: 3rem;
-  }
-
-  span.money {
-    color: yellow;
-  }
-</style>
-
-  <script src="js/libs/three.min.js"></script>
-  <script src="js/libs/tween.min.js"></script>
-  <script src="js/libs/EventDispatcher.js"></script>
-  <script src="js/sprites.js"></script>
-  <script src="js/world.js"></script>
-  <script src="js/utils.js"></script>
-  <script src="js/logic/map.js"></script>
-  <script src="js/logic/hero.js"></script>
-  <script src="js/logic/Monster.js"></script>
-  <script src="js/game.js"></script>
-  <script src="js/main.js"></script>
-</head>
-<body>
-  <div id="game"></div>
-  <div id="stats">&nbsp;</div>
-  <div id="game_over" style="display:none">
-    <p>Game Over</p>
-    <p><span class="money"></span></p>
-  </div>
-  <div id="victory" style="display:none">
-    <p>Yay!</p>
-    <p><span class="money"></span></p>
-  </div>
-</body>
+		<script src="js/libs/three.min.js"></script>
+		<script src="js/libs/tween.min.js"></script>
+		<script src="js/libs/EventDispatcher.js"></script>
+		<script src="js/sprites.js"></script>
+		<script src="js/world.js"></script>
+		<script src="js/utils.js"></script>
+		<script src="js/logic/map.js"></script>
+		<script src="js/logic/hero.js"></script>
+		<script src="js/logic/Monster.js"></script>
+		<script src="js/game.js"></script>
+		<script src="js/main.js"></script>
+	</head>
+	<body>
+		<div id="game"></div>
+		<div id="stats">&nbsp;</div>
+		<div id="game_over" class="overlay animated" style="opacity: 0;">
+			<div>
+				<p>Game Over</p>
+				<p><span class="money"></span></p>
+			</div>
+		</div>
+		<div id="victory" class="overlay animated" style="opacity: 0;">
+			<div>
+				<p>Yay!</p>
+				<p><span class="money"></span></p>
+		</div>
+		</div>
+	</body>
 </html>

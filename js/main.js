@@ -20,13 +20,13 @@ window.onload = function() {
 
   function onGameOver( e ) {
     var money = '§' + e.hero.inventory.money;
-    gameover.style.display = 'block';
+    gameover.style.opacity = 1;
     gameover.querySelector('span.money').innerHTML = money;
   }
 
   function onVictory( e ) {
     var money = '$' + e.hero.inventory.money;
-    victory.style.display = 'block';
+    victory.style.opacity = 1;
     victory.querySelector('span.money').innerHTML = money;
   }
 }
