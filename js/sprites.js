@@ -27,10 +27,40 @@ function MapSprite(size, nodes) {
   this.updateGeometry = function(index) {
     var geometry = generateNodeGeometry(nodes[index]);
     var slot = scope.slots.children[index];
-    slot.remove(slot.children[0]);
-    slot.add(geometry);
-  };
+	var existingGeometry = slot,
+		easing = TWEEN.Easing.Exponential.Out,
+		duration = 500;
 
+	var s = 0.01;
+	var tweenDisappear = null,
+		tweenAppear = null,
+		tweenFinalScale = null;
+
+	tweenDisappear = new TWEEN.Tween( existingGeometry.scale )
+		.to({ x: s, y: s }, duration)
+		.easing( TWEEN.Easing.Exponential.Out )
+		.onComplete( function() {
+			while( slot.children.length > 0 ) {
+				slot.remove( slot.children[0] );
+			}
+			
+			slot.add( geometry );
+		} );
+
+	tweenFinalScale = new TWEEN.Tween( existingGeometry.scale )
+		.to({ x: 1, y: 1}, duration/2)
+		.easing( TWEEN.Easing.Exponential.Out );
+
+	tweenAppear = new TWEEN.Tween( existingGeometry.scale )
+		.to({ x: 1.5, y: 1.5 }, duration )
+		.easing( TWEEN.Easing.Elastic.In )
+		.chain( tweenFinalScale );
+
+
+	tweenDisappear.chain( tweenAppear ).start();
+
+  };
+  
   this.getSlotSprite = function( index ) {
     return scope.slots.children[index];
   }
