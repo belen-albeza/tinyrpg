@@ -1,11 +1,13 @@
 
 window.onload = function() {
   var game = new Game(document.getElementById('game')),
-  stats = document.getElementById( 'stats' ),
-  gameover = document.getElementById( 'game_over' );
+    stats = document.getElementById( 'stats' ),
+    gameover = document.getElementById( 'game_over' ),
+    victory = document.getElementById('victory');
 
   game.addEventListener( 'statsChanged', onStatsChanged, false );
   game.addEventListener( 'gameover', onGameOver, false);
+  game.addEventListener( 'victory', onVictory, false);
 
   game.start();
 
@@ -18,5 +20,9 @@ window.onload = function() {
 
   function onGameOver( e ) {
     gameover.style.display = 'block';
+  }
+
+  function onVictory( e ) {
+    victory.style.display = 'block';
   }
 }

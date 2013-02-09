@@ -72,6 +72,10 @@ function Game(container) {
         scope.hero.earnMoney(slot.contents.money);
         scope.map.swapSlot(slot, new GraphNode(GraphNode.TYPE_ROAD));
         break;
+      case GraphNode.TYPE_END:
+        console.log('Victory!');
+        scope.dispatchEvent({type: 'victory'});
+        break;
     }
   }
 

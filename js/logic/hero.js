@@ -15,7 +15,7 @@ function Hero( map ) {
     money: 0
   };
 
-  scope.energy = 10; //scope.MAX_ENERGY;
+  scope.energy = scope.MAX_ENERGY;
 
   function addEnergy(value) {
     var oldEnergy = scope.energy;
