@@ -128,13 +128,27 @@ function ProgressBar(width, height, color) {
   var geometry = new THREE.PlaneGeometry(width, height);
   var material = new THREE.MeshBasicMaterial({color: color});
   var mesh = new THREE.Mesh(geometry, material);
+  var tween = null;
   mesh.rotation.x = -Math.PI;
 
   this.add(mesh);
 
   this.setValue = function(value) {
-    mesh.scale.x = value || 0.0001;
-    mesh.position.x = -(width - (value * width)) / 2;
+ 
+	var finalX = value || 0.0001;
+
+	if( tween !== null ) {
+		tween.stop();
+	}
+	
+	tween = new TWEEN.Tween( mesh.scale )
+		.to({ x: finalX }, 200 )
+		.easing( TWEEN.Easing.Exponential.InOut )
+		.onUpdate(function() {
+			mesh.position.x = -width * (1 - mesh.scale.x) * 0.5;
+		})
+		.start();
+
   }; 
 }
 
