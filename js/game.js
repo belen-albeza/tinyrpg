@@ -71,8 +71,11 @@ function Game(container) {
       clearTimeout( combatTimeout );
     }
 
-    var monster = new Monster( e.slot.contents.type, scope.map.sprite.getSlotSprite( e.slot.index )  );
-    
+    var monster = new Monster( e.slot.contents.type, scope.map.sprite.getSlotSprite( e.slot.index ), TILE_SIZE );
+
+    monster.addEventListener('energyChanged', onMonsterEnergyChanged, false);
+    scope.hero.addEventListener('energyChanged', onHeroEnergyChanged, false);
+
     combatRound( monster, e.slot );
   }
 
@@ -133,7 +136,7 @@ function Game(container) {
     }
 
     function fightAnotherRound() {
-      if (!checkCombatWon()) {
+      if (!checkCombatWon() && !scope.hero.isDead()) {
         setTimeout( function() { combatRound( monster, slot ); }, 500 );
       }
     }
@@ -150,12 +153,25 @@ function Game(container) {
           newSlot = new GraphNode( GraphNode.TYPE_ROAD );
         }
         scope.map.swapSlot( slot, newSlot );
+
+        monster.removeEventListener('energyChanged', onMonsterEnergyChanged);
+        scope.hero.removeEventListener('energyChanged', onHeroEnergyChanged);
         return true;
       }
       else {
         return false;
       }
     }
+  }
+
+  function onHeroEnergyChanged( e ) {
+    console.log('Hero energy change', e.energy - e.oldEnergy);
+  }
+
+  function onMonsterEnergyChanged( e ) {
+    var monster = e.target;
+    monster.updateEnergyBar();
+    console.log('Monster energy change', e.energy - e.oldEnergy);
   }
 
   function onHeroDied( e ) {

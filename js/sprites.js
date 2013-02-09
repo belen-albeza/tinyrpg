@@ -88,4 +88,22 @@ function HeroSprite(size) {
 
 HeroSprite.prototype = Object.create( THREE.Object3D.prototype );
 
+function ProgressBar(width, height, color) {
+  var scope = this;
+  THREE.Object3D.call( this );
 
+  var geometry = new THREE.PlaneGeometry(width, height);
+  var material = new THREE.MeshBasicMaterial({color: color});
+  var mesh = new THREE.Mesh(geometry, material);
+  mesh.rotation.x = -Math.PI;
+
+  this.add(mesh);
+
+  this.setValue = function(value) {
+    mesh.scale.x = value || 0.0001;
+    mesh.position.x = -(width - (value * width)) / 2;
+  }; 
+}
+
+
+ProgressBar.prototype = Object.create ( THREE.Object3D.prototype );

@@ -34,6 +34,11 @@ function Hero( map ) {
         hero: scope
       });
     }
+    scope.dispatchEvent({
+      type: 'energyChanged',
+      oldEnergy: oldEnergy,
+      energy: scope.energy
+    });
   };
 
   function die() {
