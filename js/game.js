@@ -50,6 +50,8 @@ function Game(container) {
     scope.hero = new Hero( scope.map );
     scope.rootDrawable.add(scope.hero.sprite);
 
+	scope.rootDrawable.add( buildAxes( 1000 ) );
+
     onWindowResize();
     scope.render();
 
