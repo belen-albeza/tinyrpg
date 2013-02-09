@@ -21,6 +21,7 @@ function Monster( type, sprite, size ) {
 
   this.type = type;
   this.sprite = sprite;
+  this.size = size;
   this.energyBar = new ProgressBar(size, size / 10.0, 0xff0000);
   this.energyBar.position.y = -size;
   this.sprite.add(this.energyBar);
@@ -37,10 +38,14 @@ function Monster( type, sprite, size ) {
                     Math.max( 0, this.energy + value ),
                     types[type].energy
     );
+    if (oldEnergy != this.energy) {
+      this.updateEnergyBar();
+    }
     scope.dispatchEvent({
       type: 'energyChanged',
       oldEnergy: oldEnergy,
-      energy: scope.energy
+      energy: scope.energy,
+      requestedEnergyDelta: value
     });
   }
 

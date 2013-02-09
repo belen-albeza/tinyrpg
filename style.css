@@ -68,3 +68,12 @@ span.money {
 	transition-duration: 2s;
 	transition-timing-function: ease-in-out;
 }
+
+.fast{
+  transition-duration: 1s;
+  -webkit-transition-duration: 1s;
+  -moz-transition-duration: 1s;
+  transition-timing-function: ease-out;
+  -webkit-transition-timing-function: ease-out;
+  -moz-transition-timing-function: ease-out;
+}

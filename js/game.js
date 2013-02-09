@@ -75,7 +75,6 @@ function Game(container) {
     var monster = new Monster( e.slot.contents.type, scope.map.sprite.getSlotSprite( e.slot.index ), TILE_SIZE );
 
     monster.addEventListener('energyChanged', onMonsterEnergyChanged, false);
-    scope.hero.addEventListener('energyChanged', onHeroEnergyChanged, false);
 
     combatRound( monster, e.slot );
   }
@@ -159,10 +158,9 @@ function Game(container) {
         } else {
           newSlot = new GraphNode( GraphNode.TYPE_ROAD );
         }
-        scope.map.swapSlot( slot, newSlot );
 
+        scope.map.swapSlot( slot, newSlot );
         monster.removeEventListener('energyChanged', onMonsterEnergyChanged);
-        scope.hero.removeEventListener('energyChanged', onHeroEnergyChanged);
         return true;
       }
       else {
@@ -172,30 +170,16 @@ function Game(container) {
   }
 
   function onHeroEnergyChanged( e ) {
+    if (gameState == STATE_COMBAT || e.requestedEnergyDelta > 0) {
+      followHero(); // update camera
+      renderTextEnergy(e.requestedEnergyDelta, scope.hero.sprite, TILE_SIZE);
+    }
     console.log('Hero energy change', e.energy - e.oldEnergy);
-  }
-
-  function localToWorld(obj) {
-    var local = obj.position.clone();
-    local.add(scope.rootDrawable.position);
-    return local;
-  }
-
-  function worldToScreen(position) {
-    var res = position;
-    res.x -= scope.camera.position.x;
-    return res;
   }
 
   function onMonsterEnergyChanged( e ) {
     var monster = e.target;
-    monster.updateEnergyBar();
-    var position = worldToScreen(localToWorld(monster.sprite));
-    var delta = e.energy - e.oldEnergy;
-
-    renderText(String(delta), position.x, position.y, '32px',
-               delta < 0 ? 0xff0000 : 0x00ff00,
-               1000);
+    renderTextEnergy(e.requestedEnergyDelta, monster.sprite, TILE_SIZE);
     console.log('Monster energy change', e.energy - e.oldEnergy);
   }
 
@@ -213,6 +197,9 @@ function Game(container) {
       case GraphNode.TYPE_TREASURE:
         console.log('Treasure', slot.contents);
         scope.hero.earnMoney(slot.contents.money);
+        followHero(); // update camera
+        renderCharacterText('§' + slot.contents.money, '#ffff00',
+          scope.hero.sprite, TILE_SIZE);
         scope.map.swapSlot(slot, new GraphNode(GraphNode.TYPE_ROAD));
         break;
       case GraphNode.TYPE_END:
@@ -230,26 +217,74 @@ function Game(container) {
     }
   }
 
-  function renderText(text, x, y, fontSize, color, destroyTime) {
+  function localToWorld(obj) {
+    var local = obj.position.clone();
+    local.add(scope.rootDrawable.position);
+    console.log('local x', local.x);
+    return local;
+  }
+
+  function worldToScreen(position) {
+    var res = position;
+    res.x -= scope.camera.position.x;
+    return res;
+  }
+
+  function renderTextEnergy(amount, sprite, size) {
+    var color = amount < 0 ? '#ff0000' : '#00ff00';
+    renderCharacterText(String(Math.abs(amount)), color, sprite, size);
+  }
+
+  // TODO: change the name of this function
+  function renderCharacterText(text, color, sprite, size) {
+    var position = worldToScreen(localToWorld(sprite));
+
+    renderText(text, position.x - size / 2,
+      position.y - size, {
+      css: {
+        'font-size': '32px',
+        'color': color,
+        'width': size + 'px',
+        'text-align': 'center'
+      },
+      animatedCss: {
+        'top': position.y - size * 2 + 'px',
+        'opacity': 0
+      },
+      animatedClass: 'fast',
+      destroyTime: 1000
+    });
+  }
+
+  function renderText(text, x, y, options) {
+    if (!options) options = {};
     var element = document.createElement('div');
     element.style.position = 'absolute';
-    element.style['font-size'] = fontSize;
-    element.style.color = String(color);
+    if (options.css) {
+      for (property in options.css) {
+        element.style[property] = options.css[property];
+      }
+    }
     element.style.left = x + 'px';
-    element.classList.add('animated');
     element.innerHTML = text;
     element.style.top = y + 'px';
-    container.appendChild(element);
-    setTimeout(function() {
-      element.style.top = (y - 100) + 'px';
-    }, 0);
     console.log(element);
-    console.log(container);
+    container.appendChild(element);
 
-    if (destroyTime) {
+    if (options.animatedCss) {
+      element.classList.add('animated');
+      if (options.animatedClass) element.classList.add(options.animatedClass);
+      setTimeout(function() {
+        for (property in options.animatedCss) {
+          element.style[property] = options.animatedCss[property];
+        }
+      }, 0);
+    }
+
+    if (options.destroyTime) {
       setTimeout(function() {
         container.removeChild(element);
-      }, destroyTime);
+      }, options.destroyTime);
     }
   }
 
@@ -277,6 +312,7 @@ function Game(container) {
     scope.hero.addEventListener('inventoryChanged', onHeroChanged, false);
     scope.hero.addEventListener('heroDied', onHeroDied, false);
     scope.hero.addEventListener('combatStarted', onCombatStarted, false);
+    scope.hero.addEventListener('energyChanged', onHeroEnergyChanged, false);
 
     scope.rootDrawable.add( buildAxes( 10000 ) );
 

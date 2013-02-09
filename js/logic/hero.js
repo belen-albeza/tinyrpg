@@ -38,7 +38,8 @@ function Hero( map ) {
     scope.dispatchEvent({
       type: 'energyChanged',
       oldEnergy: oldEnergy,
-      energy: scope.energy
+      energy: scope.energy,
+      requestedEnergyDelta: value
     });
   };
 
