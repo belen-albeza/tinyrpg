@@ -42,6 +42,16 @@ function Game(container) {
     }
   }
 
+  function onSlotArrived(e) {
+    var slot = e.slot;
+    switch (slot.type) {
+      case GraphNode.TYPE_TREASURE:
+        console.log('Treasure', slot.contents);
+        scope.hero.earnMoney(slot.contents.money);
+        break;
+    }
+  }
+
   this.start = function() {
     scope.renderer = new THREE.WebGLRenderer({
       clearColor: 0x000000,
@@ -61,7 +71,9 @@ function Game(container) {
     scope.hero = new Hero( scope.map );
     scope.rootDrawable.add(scope.hero.sprite);
 
-	scope.rootDrawable.add( buildAxes( 1000 ) );
+    scope.hero.addEventListener('arrived', onSlotArrived, false);
+
+    scope.rootDrawable.add( buildAxes( 10000 ) );
 
     onWindowResize();
     scope.render();

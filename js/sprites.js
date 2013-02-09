@@ -2,7 +2,7 @@ function MapSprite(size, nodes) {
   var scope = this;
 
   THREE.Object3D.call( this );
-  
+
   generateGeometry();
 
   function generateGeometry() {
@@ -21,14 +21,15 @@ function MapSprite(size, nodes) {
         offsetX = 0;
 
     scope.graph.nodes.forEach(function(node) {
-      var material = new THREE.MeshBasicMaterial({
-        color: colors[node.type]});
-      var drawable = new THREE.Mesh(quad, material);
-      drawable.position.set(offsetX, 0, 1);
-      drawable.rotation.x = - Math.PI;
-      scope.add(drawable);
-
-      offsetX += (node.distance + 1) * size;
+      if (node.type != GraphNode.TYPE_ROAD) {
+        var material = new THREE.MeshBasicMaterial({
+          color: colors[node.type]});
+        var drawable = new THREE.Mesh(quad, material);
+        drawable.position.set(offsetX, 0, 1);
+        drawable.rotation.x = - Math.PI;
+        scope.add(drawable);
+      }
+      offsetX += 1 * size;
     });
 
     var line = new THREE.Mesh(new THREE.PlaneGeometry(offsetX, size / 4, size ),
