@@ -1,4 +1,4 @@
-function Monster( type ) {
+function Monster( type, sprite ) {
   var types = {};
   types[Monster.TYPE_SLIME] = {
       attack: 5,
@@ -18,8 +18,8 @@ function Monster( type ) {
       energy: 80
     };
   
-
   this.type = type;
+  this.sprite = sprite;
   this.defense = types[type].defense;
   this.attack = types[type].attack;
   this.energy = types[type].energy;

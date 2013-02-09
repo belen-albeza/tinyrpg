@@ -71,7 +71,7 @@ function Game(container) {
       clearTimeout( combatTimeout );
     }
 
-    var monster = new Monster( e.slot.contents.type );
+    var monster = new Monster( e.slot.contents.type, scope.map.sprite.getSlotSprite( e.slot.index )  );
     
     combatRound( monster, e.slot );
   }
@@ -79,28 +79,77 @@ function Game(container) {
   function combatRound( monster, slot ) {
     console.log('Combat round hero =', scope.hero.energy, 'monster=', monster.energy );
     console.log('Scope hero attack', scope.hero.attack, 'monster defense', monster.defense);
-    var heroInflictedDamage = Math.max( 0, scope.hero.attack - monster.defense );
+    var heroSprite = scope.hero.sprite,
+        monsterSprite = monster.sprite,
+        easing = TWEEN.Easing.Elastic.In,
+        easingBack = TWEEN.Easing.Elastic.Out,
+        offset = TILE_SIZE * 0.5,
+        duration = 250,
+        heroTween = new TWEEN.Tween( heroSprite.position )
+          .to({ x: heroSprite.position.x + offset }, duration )
+          .easing( easing ),
+        heroTweenBack = new TWEEN.Tween( heroSprite.position )
+          .to({ x: heroSprite.position.x }, duration )
+          .easing( easingBack )
+          .onComplete( monsterMayAttackHero ),
+        monsterTween = new TWEEN.Tween( monsterSprite.position )
+          .to({ x: monsterSprite.position.x - offset }, duration )
+          .delay( duration )
+          .easing( easing )
+        monsterTweenBack = new TWEEN.Tween( monsterSprite.position )
+          .to({ x: monsterSprite.position.x }, duration )
+          .easing( easingBack )
+          .onComplete( fightAnotherRound );
+
+    heroTween.chain( heroTweenBack );
+    monsterTween.chain( monsterTweenBack );
+
+
+    var heroInflictedDamage = Math.max( 0,
+      scope.hero.attack - monster.defense );
     monster.addEnergy( - heroInflictedDamage );
     console.log('heroinflicteddamage', heroInflictedDamage);
-    if( !monster.isDead() ) {
-      var monsterInflictedDamage = Math.max( 0, monster.attack - scope.hero.defense );
-      scope.hero.addEnergy( - monsterInflictedDamage );
-      console.log( 'monsterInflictedDamage', monsterInflictedDamage);
+
+    heroTween.start();
+
+
+    function monsterMayAttackHero() {
+      if( !monster.isDead() ) {
+        var monsterInflictedDamage = Math.max( 0, 
+          monster.attack - scope.hero.defense );
+        scope.hero.addEnergy( - monsterInflictedDamage );
+        console.log( 'monsterInflictedDamage', monsterInflictedDamage);
+
+        monsterTween.start();
+      }
+      else {
+        checkCombatWon();
+      }
     }
 
-    if( !scope.hero.isDead() && !monster.isDead() ) {
-      setTimeout( function() { combatRound( monster, slot ); }, 2000 );
-    } else if( ! scope.hero.isDead() && monster.isDead() ) {
-      gameState = STATE_EXPLORE;
-      var newSlot;
-      if( slot.contents.reward !== undefined ) {
-        newSlot = new GraphNode( GraphNode.TYPE_TREASURE, { money: slot.contents.reward.money } );
-      } else {
-        newSlot = new GraphNode( GraphNode.TYPE_ROAD );
+    function fightAnotherRound() {
+      if (!checkCombatWon()) {
+        setTimeout( function() { combatRound( monster, slot ); }, 500 );
       }
+    }
 
-      scope.map.swapSlot( slot, newSlot );
-
+    function checkCombatWon() {
+      if (!scope.hero.isDead() && monster.isDead()) {
+        gameState = STATE_EXPLORE;
+        var newSlot;
+        if( slot.contents.reward !== undefined ) {
+          newSlot = new GraphNode( GraphNode.TYPE_TREASURE, {
+            money: slot.contents.reward.money
+          });
+        } else {
+          newSlot = new GraphNode( GraphNode.TYPE_ROAD );
+        }
+        scope.map.swapSlot( slot, newSlot );
+        return true;
+      }
+      else {
+        return false;
+      }
     }
 
   }
@@ -174,13 +223,12 @@ function Game(container) {
   };
 
   this.update = function() {
-    if( gameState == STATE_COMBAT ) {
-      
-    }
   };
 
   this.render = function() {
     requestAnimationFrame(scope.render);
+    TWEEN.update();
+
     scope.renderer.render(scope.scene, scope.camera);
   };
 }

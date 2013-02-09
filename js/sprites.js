@@ -31,6 +31,10 @@ function MapSprite(size, nodes) {
     slot.add(geometry);
   };
 
+  this.getSlotSprite = function( index ) {
+    return scope.slots.children[index];
+  }
+
   function generateGeometry() {
     scope.graph = new Graph();
     scope.graph.generate();
