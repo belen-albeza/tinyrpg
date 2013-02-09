@@ -33,6 +33,7 @@ function Hero( map ) {
         type: 'statsChanged',
         hero: scope
       });
+      updateEnergyBar();
     }
     scope.dispatchEvent({
       type: 'energyChanged',
@@ -47,6 +48,10 @@ function Hero( map ) {
       type: 'heroDied',
       hero: scope
     });
+  }
+
+  function updateEnergyBar() {
+    scope.sprite.energyBar.setValue(scope.energy / scope.MAX_ENERGY);
   }
 
   this.isDead = function() {

@@ -90,7 +90,8 @@ function Game(container) {
         duration = 250,
         heroTween = new TWEEN.Tween( heroSprite.position )
           .to({ x: heroSprite.position.x + offset }, duration )
-          .easing( easing ),
+          .easing( easing )
+          .onComplete(heroAttacks),
         heroTweenBack = new TWEEN.Tween( heroSprite.position )
           .to({ x: heroSprite.position.x }, duration )
           .easing( easingBack )
@@ -114,12 +115,14 @@ function Game(container) {
     monsterTween.chain( monsterTweenBack );
 
 
-    var heroInflictedDamage = Math.max( 0,
-      scope.hero.attack - monster.defense );
-    monster.addEnergy( - heroInflictedDamage );
-    console.log('heroinflicteddamage', heroInflictedDamage);
-
     heroTween.start();
+
+    function heroAttacks() {
+      var heroInflictedDamage = Math.max( 0,
+        scope.hero.attack - monster.defense );
+      monster.addEnergy( - heroInflictedDamage );
+      console.log('heroinflicteddamage', heroInflictedDamage);
+    }
 
     function monsterMayAttackHero() {
       if( !monster.isDead() ) {

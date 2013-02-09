@@ -77,6 +77,9 @@ function HeroSprite(size) {
     scope.add( mesh );
     mesh.rotation.x = - Math.PI;
 
+    scope.energyBar = new ProgressBar(size, size / 10, 0x00ff00);
+    scope.energyBar.position.y = -size;
+    scope.add(scope.energyBar);
   }
 
   this.setPosition = function(x, y, z) {
