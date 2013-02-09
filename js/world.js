@@ -33,7 +33,7 @@ function Graph() {
     addNode(new GraphNode(GraphNode.TYPE_ROAD));
     addNode(new GraphNode(GraphNode.TYPE_ROAD));
 
-    addNode(new GraphNode(GraphNode.TYPE_BOSS, { type: Monster.TYPE_SLIME } ));
+    addNode(new GraphNode(GraphNode.TYPE_BOSS, { type: Monster.TYPE_SLIME, reward: { money:100 } } ));
     addNode(new GraphNode(GraphNode.TYPE_TREASURE, {money: 100}));
 
     addNode(new GraphNode(GraphNode.TYPE_ROAD));
@@ -52,7 +52,7 @@ function Graph() {
     addNode(new GraphNode(GraphNode.TYPE_ROAD));
 
     addNode(new GraphNode(GraphNode.TYPE_LOCK));
-    addNode(new GraphNode(GraphNode.TYPE_BOSS, { type: Monster.TYPE_TRONCHO } ));
+    addNode(new GraphNode(GraphNode.TYPE_BOSS, { type: Monster.TYPE_TRONCHO, reward: { money: 1000 } } ));
     addNode(new GraphNode(GraphNode.TYPE_TREASURE, {money: 1000}));
     addNode(new GraphNode(GraphNode.TYPE_END));
   }

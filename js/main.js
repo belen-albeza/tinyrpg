@@ -5,21 +5,21 @@ window.onload = function() {
     gameover = document.getElementById( 'game_over' ),
     victory = document.getElementById('victory');
 
-  game.addEventListener( 'statsChanged', onStatsChanged, false );
+  game.addEventListener( 'heroChanged', onHeroChanged, false );
   game.addEventListener( 'gameover', onGameOver, false);
   game.addEventListener( 'victory', onVictory, false);
 
   game.start();
 
-  function onStatsChanged( e ) {
-    var money = '$' + e.hero.inventory.money;
+  function onHeroChanged( e ) {
+    var money = '§' + e.hero.inventory.money;
     var energy = e.hero.energy;
     stats.innerHTML = 'Money: ' + money;
     stats.innerHTML += ' Energy: ' + energy;
   }
 
   function onGameOver( e ) {
-    var money = '$' + e.hero.inventory.money;
+    var money = '§' + e.hero.inventory.money;
     gameover.style.display = 'block';
     gameover.querySelector('span.money').innerHTML = money;
   }

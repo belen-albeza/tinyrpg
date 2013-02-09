@@ -16,6 +16,7 @@ function Map(tileSize) {
   };
 
   this.swapSlot = function(slot, newSlot) {
+    newSlot.index = slot.index;
     scope.graph.nodes[slot.index] = newSlot;
     scope.sprite.updateGeometry(slot.index);
   };

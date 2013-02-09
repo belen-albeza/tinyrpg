@@ -56,8 +56,8 @@ function Game(container) {
     }
   }
 
-  function onStatsChanged( e ) {
-    scope.dispatchEvent(e);
+  function onHeroChanged( e ) {
+    scope.dispatchEvent({ type: 'heroChanged', hero: e.hero });
   }
 
   function onCombatStarted( e ) {
@@ -92,7 +92,14 @@ function Game(container) {
       setTimeout( function() { combatRound( monster, slot ); }, 2000 );
     } else if( ! scope.hero.isDead() && monster.isDead() ) {
       gameState = STATE_EXPLORE;
-      scope.map.swapSlot(slot, new GraphNode(GraphNode.TYPE_ROAD));
+      var newSlot;
+      if( slot.contents.reward !== undefined ) {
+        newSlot = new GraphNode( GraphNode.TYPE_TREASURE, { money: slot.contents.reward.money } );
+      } else {
+        newSlot = new GraphNode( GraphNode.TYPE_ROAD );
+      }
+
+      scope.map.swapSlot( slot, newSlot );
 
     }
 
@@ -149,17 +156,15 @@ function Game(container) {
     scope.rootDrawable.add(scope.hero.sprite);
 
     scope.hero.addEventListener('arrived', onSlotArrived, false);
-    scope.hero.addEventListener('statsChanged', onStatsChanged, false);
+    scope.hero.addEventListener('statsChanged', onHeroChanged, false);
+    scope.hero.addEventListener('inventoryChanged', onHeroChanged, false);
     scope.hero.addEventListener('heroDied', onHeroDied, false);
     scope.hero.addEventListener('combatStarted', onCombatStarted, false);
 
     scope.rootDrawable.add( buildAxes( 10000 ) );
 
     onWindowResize();
-    scope.dispatchEvent({
-      type: 'statsChanged',
-      hero: scope.hero
-    });
+    onHeroChanged( { hero: scope.hero });
 
     scope.render();
 

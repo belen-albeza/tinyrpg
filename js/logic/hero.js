@@ -49,7 +49,7 @@ function Hero( map ) {
   }
 
   this.restoreEnergy = function(index) {
-    addEnergy(scope.MAX_ENERGY);
+    this.addEnergy(scope.MAX_ENERGY);
   };
 
   this.setPositionIndex = function(index) {
@@ -88,6 +88,7 @@ function Hero( map ) {
   this.earnMoney = function(amount) {
     scope.inventory.money += amount;
     console.log('money', scope.inventory.money);
+    scope.dispatchEvent({ type: 'inventoryChanged', hero: scope });
   };
 
 }
