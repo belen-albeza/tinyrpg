@@ -42,8 +42,13 @@
     bottom: 0px;
     right: 0px;
   }
+
   #game_over p, #victory p {
     padding: 3rem;
+  }
+
+  span.money {
+    color: yellow;
   }
 </style>
 
@@ -60,7 +65,13 @@
 <body>
   <div id="game"></div>
   <div id="stats">&nbsp;</div>
-  <div id="game_over" style="display:none"><p>Game Over</p></div>
-  <div id="victory" style="display:none"><p>Yay!</p></div>
+  <div id="game_over" style="display:none">
+    <p>Game Over</p>
+    <p><span class="money"></span></p>
+  </div>
+  <div id="victory" style="display:none">
+    <p>Yay!</p>
+    <p><span class="money"></span></p>
+  </div>
 </body>
 </html>

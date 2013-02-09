@@ -60,7 +60,10 @@ function Game(container) {
   }
 
   function onHeroDied( e ) {
-    scope.dispatchEvent({type: 'gameover'});
+    scope.dispatchEvent({
+      type: 'gameover',
+      hero: scope.hero
+    });
     gameState = STATE_GAMEOVER;
   }
 
@@ -74,7 +77,10 @@ function Game(container) {
         break;
       case GraphNode.TYPE_END:
         console.log('Victory!');
-        scope.dispatchEvent({type: 'victory'});
+        scope.dispatchEvent({
+          type: 'victory',
+          hero: scope.hero
+        });
         break;
     }
   }

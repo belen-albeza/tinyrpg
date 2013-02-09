@@ -19,10 +19,14 @@ window.onload = function() {
   }
 
   function onGameOver( e ) {
+    var money = '$' + e.hero.inventory.money;
     gameover.style.display = 'block';
+    gameover.querySelector('span.money').innerHTML = money;
   }
 
   function onVictory( e ) {
+    var money = '$' + e.hero.inventory.money;
     victory.style.display = 'block';
+    victory.querySelector('span.money').innerHTML = money;
   }
 }
