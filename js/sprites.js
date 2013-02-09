@@ -1,11 +1,12 @@
 function MapSprite(size, nodes) {
   var scope = this;
+  var quad = new THREE.PlaneGeometry(size, size), offsetX = 0;
 
   THREE.Object3D.call( this );
 
   generateGeometry();
 
-  function generateGeometry() {
+  function generateNodeGeometry(node) {
     var colors = [];
     colors[GraphNode.TYPE_START] =  0xffffff;
     colors[GraphNode.TYPE_END] = 0x00ffff;
@@ -14,21 +15,29 @@ function MapSprite(size, nodes) {
     colors[GraphNode.TYPE_LOCK] =  0xcccccc;
     colors[GraphNode.TYPE_SHOP] =  0x00ff0;
 
+    var drawable = null;
+    if (node.type != GraphNode.TYPE_ROAD) {
+      var material = new THREE.MeshBasicMaterial({color: colors[node.type]});
+      drawable = new THREE.Mesh(quad, material);
+      drawable.rotation.x = - Math.PI;
+    }
+    return drawable;
+  }
+
+  function generateGeometry() {
     scope.graph = new Graph();
     scope.graph.generate();
 
-    var quad = new THREE.PlaneGeometry(size, size),
-        offsetX = 0;
+    scope.slots = new THREE.Object3D();
+    scope.add( scope.slots );
 
     scope.graph.nodes.forEach(function(node) {
-      if (node.type != GraphNode.TYPE_ROAD) {
-        var material = new THREE.MeshBasicMaterial({
-          color: colors[node.type]});
-        var drawable = new THREE.Mesh(quad, material);
-        drawable.position.set(offsetX, 0, 1);
-        drawable.rotation.x = - Math.PI;
-        scope.add(drawable);
-      }
+      var slot = new THREE.Object3D(),
+          drawable = generateNodeGeometry(node);
+
+      slot.add(drawable);
+      slot.position.set(offsetX, 0, 1);
+      scope.slots.add( slot );
       offsetX += 1 * size;
     });
 
