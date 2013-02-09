@@ -3,6 +3,8 @@ function Game(container) {
   var TILE_SIZE = 100;
   var cameraTarget = new THREE.Vector3(0, 0, 0);
 
+  EventDispatcher.call(this);
+
   function onWindowResize() {
     scope.width = window.innerWidth;
     scope.height = window.innerHeight;
@@ -42,6 +44,14 @@ function Game(container) {
     }
   }
 
+  function onStatsChanged( e ) {
+    scope.dispatchEvent(e);
+  }
+
+  function onHeroDied( e ) {
+    scope.dispatchEvent(e);
+  }
+
   function onSlotArrived(e) {
     var slot = e.slot;
     switch (slot.type) {
@@ -73,6 +83,8 @@ function Game(container) {
     scope.rootDrawable.add(scope.hero.sprite);
 
     scope.hero.addEventListener('arrived', onSlotArrived, false);
+    scope.hero.addEventListener('statsChanged', onStatsChanged, false);
+    scope.hero.addEventListener('heroDied', onHeroDied, false);
 
     scope.rootDrawable.add( buildAxes( 10000 ) );
 
