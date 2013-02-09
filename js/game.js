@@ -77,10 +77,15 @@ function Game(container) {
         break;
       case GraphNode.TYPE_END:
         console.log('Victory!');
+        gameState = STATE_VICTORY;
         scope.dispatchEvent({
           type: 'victory',
           hero: scope.hero
         });
+        break;
+      case GraphNode.TYPE_SHOP:
+        console.log('Shop');
+        scope.hero.restoreEnergy();
         break;
     }
   }

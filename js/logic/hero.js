@@ -42,6 +42,10 @@ function Hero( map ) {
     });
   }
 
+  this.restoreEnergy = function(index) {
+    addEnergy(scope.MAX_ENERGY);
+  };
+
   this.setPositionIndex = function(index) {
     if( ! map.isValidPosition( index ) ) {
       return;
@@ -58,13 +62,13 @@ function Hero( map ) {
   };
 
   this.moveForward = function() {
-    this.setPositionIndex( scope.positionIndex + 1);
     addEnergy(-1);
+    this.setPositionIndex( scope.positionIndex + 1);
   };
 
   this.moveBackwards = function() {
-    this.setPositionIndex( scope.positionIndex - 1);
     addEnergy(-1);
+    this.setPositionIndex( scope.positionIndex - 1);
   };
 
   this.earnMoney = function(amount) {

@@ -13,7 +13,7 @@ function MapSprite(size, nodes) {
     colors[GraphNode.TYPE_TREASURE] = 0xffff00;
     colors[GraphNode.TYPE_BOSS] =  0xff0000;
     colors[GraphNode.TYPE_LOCK] =  0xcccccc;
-    colors[GraphNode.TYPE_SHOP] =  0x00ff0;
+    colors[GraphNode.TYPE_SHOP] =  0x00ff00;
 
     var drawable = null;
     if (node.type != GraphNode.TYPE_ROAD) {

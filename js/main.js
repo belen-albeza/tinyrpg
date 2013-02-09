@@ -13,7 +13,7 @@ window.onload = function() {
 
   function onStatsChanged( e ) {
     var money = '$' + e.hero.inventory.money;
-    var energy = (Math.floor(e.hero.energy * 100 / e.hero.MAX_ENERGY)) + '%';
+    var energy = e.hero.energy;
     stats.innerHTML = 'Money: ' + money;
     stats.innerHTML += ' Energy: ' + energy;
   }
