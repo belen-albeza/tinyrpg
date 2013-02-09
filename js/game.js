@@ -22,7 +22,7 @@ function Game(container) {
     scope.camera.top = 0;
     scope.camera.bottom = scope.height;
     scope.camera.updateProjectionMatrix();
-    scope.camera.position.z = 100;
+    scope.camera.position.z = 1000;
     scope.camera.lookAt(cameraTarget);
 
     scope.renderer.setSize(scope.width, scope.height);
@@ -96,10 +96,16 @@ function Game(container) {
           .to({ x: monsterSprite.position.x - offset }, duration )
           .delay( duration )
           .easing( easing )
+          .onStart(function() {
+            monsterSprite.position.z = 300;
+          }),
         monsterTweenBack = new TWEEN.Tween( monsterSprite.position )
           .to({ x: monsterSprite.position.x }, duration )
           .easing( easingBack )
-          .onComplete( fightAnotherRound );
+          .onComplete(function() {
+            monsterSprite.position.z = 10;
+            fightAnotherRound();
+          });
 
     heroTween.chain( heroTweenBack );
     monsterTween.chain( monsterTweenBack );
@@ -111,7 +117,6 @@ function Game(container) {
     console.log('heroinflicteddamage', heroInflictedDamage);
 
     heroTween.start();
-
 
     function monsterMayAttackHero() {
       if( !monster.isDead() ) {
@@ -151,7 +156,6 @@ function Game(container) {
         return false;
       }
     }
-
   }
 
   function onHeroDied( e ) {
