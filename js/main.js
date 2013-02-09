@@ -12,21 +12,25 @@ window.onload = function() {
   game.start();
 
   function onHeroChanged( e ) {
-    var money = '§' + e.hero.inventory.money;
+    var money = formatMoney( e.hero.inventory.money );
     var energy = e.hero.energy;
     stats.innerHTML = 'Money: ' + money;
     stats.innerHTML += ' Energy: ' + energy;
   }
 
   function onGameOver( e ) {
-    var money = '§' + e.hero.inventory.money;
+    var money = formatMoney( e.hero.inventory.money );
     gameover.style.opacity = 1;
     gameover.querySelector('span.money').innerHTML = money;
   }
 
   function onVictory( e ) {
-    var money = '$' + e.hero.inventory.money;
+    var money = formatMoney( e.hero.inventory.money );
     victory.style.opacity = 1;
     victory.querySelector('span.money').innerHTML = money;
+  }
+
+  function formatMoney( amount ) {
+	  return '§'+amount;
   }
 }
