@@ -3,13 +3,13 @@ function GraphNode(type, contents) {
   this.contents = contents || {};
 }
 
-GraphNode.TYPE_TREASURE = 0;
-GraphNode.TYPE_BOSS = 1;
-GraphNode.TYPE_LOCK = 2;
-GraphNode.TYPE_END = 3;
-GraphNode.TYPE_SHOP = 4;
-GraphNode.TYPE_START = 5;
-GraphNode.TYPE_ROAD = 6;
+GraphNode.TYPE_TREASURE = 'treasure';
+GraphNode.TYPE_BOSS = 'boss';
+GraphNode.TYPE_LOCK = 'lock';
+GraphNode.TYPE_END = 'end';
+GraphNode.TYPE_SHOP = 'shop';
+GraphNode.TYPE_START = 'start';
+GraphNode.TYPE_ROAD = 'road';
 
 function Graph() {
   var scope = this;
