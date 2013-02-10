@@ -18,6 +18,7 @@ function Game(container) {
       { name: 'monster_attack', url: 'data/sounds/monster_attack.wav' },
       { name: 'monster_damaged', url: 'data/sounds/monster_damaged.wav' },
       { name: 'monster_dies', url: 'data/sounds/monster_dies.wav' },
+      { name: 'treasure_drop', url: 'data/sounds/treasure_drop.wav' },
       { name: 'hero_dies', url: 'data/sounds/hero_dies.wav' },
     ]);
 
@@ -179,6 +180,7 @@ function Game(container) {
           newSlot = new GraphNode( GraphNode.TYPE_TREASURE, {
             money: slot.contents.reward.money
           });
+		  soundManager.playSound( 'treasure_drop' );
         } else {
           newSlot = new GraphNode( GraphNode.TYPE_ROAD );
         }
