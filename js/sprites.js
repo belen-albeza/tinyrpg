@@ -21,6 +21,7 @@ function MapSprite(size, nodes) {
     textures[GraphNode.TYPE_START] = 'start.png';
     textures[GraphNode.TYPE_TREASURE] = 'treasure.png';
     textures[GraphNode.TYPE_SHOP] = 'food.png';
+    textures[GraphNode.TYPE_END] = 'end.png';
 
     var drawable = null;
     var materialOptions = {color: colors[node.type]};
