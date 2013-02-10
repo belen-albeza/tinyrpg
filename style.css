@@ -21,22 +21,21 @@ body {
 }
 
 #game {
-  text-align: center;
-
-}
-
-#game canvas {
   margin: 0 auto;
+  position: relative;
+  left: 0;
+  top; 0;
+  margin-top: 10px;
+}
+#game canvas {
   background: #eee url(/data/images/background.png);
-  /*border: 5px solid #000;*/
+  border: 10px solid #000;
 }
 
 #stats {
   position: absolute;
-  width: 60%;
-  bottom: 0;
-  left: 20%;
-  right: 20%;
+  bottom: 0px;
+  width: 100%;
   color: #fff;
   background: #000;
   font-size: 1.75rem;
@@ -44,7 +43,7 @@ body {
 }
 
 .overlay {
-  font-size: 7rem;
+  font-size: 4rem;
   text-align: center;
   background: rgba(0, 0, 0, 0.7);
   position: absolute;
@@ -73,6 +72,19 @@ body {
 
 span.money {
   color: yellow;
+}
+
+span.character-text {
+  background: #fff;
+  padding: 0.5rem;
+}
+
+footer {
+  margin-top: 1rem;
+  text-align: center;
+}
+a {
+  color: #666;
 }
 
 .animated {

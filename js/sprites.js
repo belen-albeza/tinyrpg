@@ -36,7 +36,7 @@ function MapSprite(size, nodes) {
           map: texture,
           color: 0xffffff,
           transparent: true,
-		  depthWrite: false
+      depthWrite: false
         };
       }
 
@@ -139,13 +139,13 @@ function HeroSprite(size) {
     var texture = THREE.ImageUtils.loadTexture( 'data/images/hero.png' ),
         geometry = new THREE.PlaneGeometry( size, size ),
         material = new THREE.MeshBasicMaterial({
-			color: 0xffffff, map: texture, transparent: true, depthWrite: false }),
+      color: 0xffffff, map: texture, transparent: true, depthWrite: false }),
         mesh = new THREE.Mesh( geometry, material );
 
     scope.add( mesh );
     mesh.rotation.x = - Math.PI;
 
-    scope.energyBar = new ProgressBar(size, size / 10, 0x00ff00);
+    scope.energyBar = new ProgressBar(size, size / 10, 0x000000);
     scope.energyBar.position.y = -size;
     scope.add(scope.energyBar);
   }

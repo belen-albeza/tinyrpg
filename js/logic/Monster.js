@@ -22,7 +22,7 @@ function Monster( type, sprite, size ) {
   this.type = type;
   this.sprite = sprite;
   this.size = size;
-  this.energyBar = new ProgressBar(size, size / 10.0, 0xff0000);
+  this.energyBar = new ProgressBar(size, size / 10.0, 0x000000);
   this.energyBar.position.y = -size;
   this.sprite.add(this.energyBar);
 

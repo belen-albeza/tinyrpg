@@ -20,7 +20,7 @@ function Game(container) {
       { name: 'monster_dies', url: 'data/sounds/monster_dies.wav' },
       { name: 'treasure_drop', url: 'data/sounds/treasure_drop.wav' },
       { name: 'treasure_pick', url: 'data/sounds/treasure_pick.wav' },
-      { name: 'life_pick', url: 'data/sounds/life_pick.wav' },
+      { name: 'life_pick', url: 'data/sounds/omnomnom.wav' },
       { name: 'hero_dies', url: 'data/sounds/hero_dies.wav' },
     ]);
 
@@ -34,6 +34,9 @@ function Game(container) {
 
     scope.width = Math.min( window.innerWidth, maxWidth );
     scope.height = Math.min( window.innerHeight, maxHeight );
+
+    container.style.width = Math.floor( scope.width )  +  'px';
+    container.style.height = Math.floor( scope.height ) + 'px';
 
     scope.camera.left = 0;
     scope.camera.right = scope.width;
@@ -234,7 +237,7 @@ function Game(container) {
         scope.hero.earnMoney(slot.contents.money);
     soundManager.playSound( 'treasure_pick' );
         followHero(); // update camera
-        renderCharacterText('§' + slot.contents.money, '#ffff00',
+        renderCharacterText('§' + slot.contents.money, '#000000',
           scope.hero.sprite, TILE_SIZE);
         scope.map.swapSlot(slot, new GraphNode(GraphNode.TYPE_ROAD));
         break;
@@ -249,7 +252,7 @@ function Game(container) {
       case GraphNode.TYPE_SHOP:
         console.log('Shop');
         scope.hero.restoreEnergy();
-    soundManager.playSound( 'life_pick' );
+        soundManager.playSound( 'life_pick' );
         break;
     }
   }
@@ -268,8 +271,9 @@ function Game(container) {
   }
 
   function renderTextEnergy(amount, sprite, size) {
-    var color = amount < 0 ? '#ff0000' : '#00ff00';
-    renderCharacterText(String(Math.abs(amount)), color, sprite, size);
+    var color = '#000000';
+    var text = ((amount > 0) ? '+' : '') + amount;
+    renderCharacterText(text, color, sprite, size);
   }
 
   // TODO: change the name of this function
@@ -303,7 +307,7 @@ function Game(container) {
       }
     }
     element.style.left = x + 'px';
-    element.innerHTML = text;
+    element.innerHTML = '<span class="character-text">' + text + '</span>';
     element.style.top = y + 'px';
     console.log(element);
     container.appendChild(element);
