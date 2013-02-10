@@ -15,7 +15,9 @@ function Game(container) {
   var soundManager = new SoundManager([
       { name: 'hero_steps', url: 'data/sounds/steps.wav' },
       { name: 'hero_attack', url: 'data/sounds/hero_attack.wav' },
-      { name: 'monster_damaged', url: 'data/sounds/monster_damaged.wav' }
+      { name: 'monster_damaged', url: 'data/sounds/monster_damaged.wav' },
+      { name: 'monster_dies', url: 'data/sounds/monster_dies.wav' },
+      { name: 'hero_dies', url: 'data/sounds/hero_dies.wav' },
     ]);
 
   EventDispatcher.call(this);
@@ -114,7 +116,7 @@ function Game(container) {
           .delay( duration )
           .easing( easing )
           .onStart(function() {
-            monsterSprite.position.z = 300;
+              monsterSprite.position.z = 300;
           })
           .onComplete(monsterAttacks),
         monsterTweenBack = new TWEEN.Tween( monsterSprite.position )
@@ -136,6 +138,7 @@ function Game(container) {
         scope.hero.attack - monster.defense );
       monster.addEnergy( - heroInflictedDamage );
       console.log('heroinflicteddamage', heroInflictedDamage);
+      soundManager.playSound( 'monster_damaged' );
     }
 
     function monsterAttacks() {
@@ -150,6 +153,10 @@ function Game(container) {
         monsterTween.start();
       }
       else {
+		if( monster.isDead() ) {
+			soundManager.stopSound( 'monster_damaged' );
+			soundManager.playSound( 'monster_dies' );
+		}
         checkCombatWon();
       }
     }
@@ -201,6 +208,7 @@ function Game(container) {
       type: 'gameover',
       hero: scope.hero
     });
+	soundManager.playSound( 'hero_dies' );
     gameState = STATE_GAMEOVER;
   }
 
