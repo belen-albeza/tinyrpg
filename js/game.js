@@ -14,7 +14,14 @@ function Game(container) {
   var soundManager = new SoundManager([
       { name: 'hero_steps', url: 'data/sounds/steps.wav' },
       { name: 'hero_attack', url: 'data/sounds/hero_attack.wav' },
-      { name: 'monster_damaged', url: 'data/sounds/monster_damaged.wav' }
+      { name: 'hero_damaged', url: 'data/sounds/hero_damaged.wav' },
+      { name: 'monster_attack', url: 'data/sounds/monster_attack.wav' },
+      { name: 'monster_damaged', url: 'data/sounds/monster_damaged.wav' },
+      { name: 'monster_dies', url: 'data/sounds/monster_dies.wav' },
+      { name: 'treasure_drop', url: 'data/sounds/treasure_drop.wav' },
+      { name: 'treasure_pick', url: 'data/sounds/treasure_pick.wav' },
+      { name: 'life_pick', url: 'data/sounds/life_pick.wav' },
+      { name: 'hero_dies', url: 'data/sounds/hero_dies.wav' },
     ]);
 
   EventDispatcher.call(this);
@@ -113,7 +120,9 @@ function Game(container) {
           .delay( duration )
           .easing( easing )
           .onStart(function() {
-            monsterSprite.position.z = 300;
+              monsterSprite.position.z = 300;
+			  soundManager.stopSound( 'monster_damaged' );
+			  soundManager.playSound( 'monster_attack' );
           })
           .onComplete(monsterAttacks),
         monsterTweenBack = new TWEEN.Tween( monsterSprite.position )
@@ -135,6 +144,7 @@ function Game(container) {
         scope.hero.attack - monster.defense );
       monster.addEnergy( - heroInflictedDamage );
       console.log('heroinflicteddamage', heroInflictedDamage);
+      soundManager.playSound( 'monster_damaged' );
     }
 
     function monsterAttacks() {
@@ -142,6 +152,7 @@ function Game(container) {
           monster.attack - scope.hero.defense );
       scope.hero.addEnergy( - monsterInflictedDamage );
       console.log( 'monsterInflictedDamage', monsterInflictedDamage);
+	  soundManager.playSound( 'hero_damaged' );
     }
 
     function monsterMayAttackHero() {
@@ -149,6 +160,10 @@ function Game(container) {
         monsterTween.start();
       }
       else {
+		if( monster.isDead() ) {
+			soundManager.stopSound( 'monster_damaged' );
+			soundManager.playSound( 'monster_dies' );
+		}
         checkCombatWon();
       }
     }
@@ -167,6 +182,7 @@ function Game(container) {
           newSlot = new GraphNode( GraphNode.TYPE_TREASURE, {
             money: slot.contents.reward.money
           });
+		  soundManager.playSound( 'treasure_drop' );
         } else {
           newSlot = new GraphNode( GraphNode.TYPE_ROAD );
         }
@@ -200,6 +216,7 @@ function Game(container) {
       type: 'gameover',
       hero: scope.hero
     });
+	soundManager.playSound( 'hero_dies' );
     gameState = STATE_GAMEOVER;
   }
 
@@ -209,6 +226,7 @@ function Game(container) {
       case GraphNode.TYPE_TREASURE:
         console.log('Treasure', slot.contents);
         scope.hero.earnMoney(slot.contents.money);
+		soundManager.playSound( 'treasure_pick' );
         followHero(); // update camera
         renderCharacterText('§' + slot.contents.money, '#ffff00',
           scope.hero.sprite, TILE_SIZE);
@@ -225,6 +243,7 @@ function Game(container) {
       case GraphNode.TYPE_SHOP:
         console.log('Shop');
         scope.hero.restoreEnergy();
+		soundManager.playSound( 'life_pick' );
         break;
     }
   }
