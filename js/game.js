@@ -13,7 +13,9 @@ function Game(container) {
   var combatTimeout = null;
 
   var soundManager = new SoundManager([
-      { name: 'hero_steps', url: 'data/sounds/steps.wav' }
+      { name: 'hero_steps', url: 'data/sounds/steps.wav' },
+      { name: 'hero_attack', url: 'data/sounds/hero_attack.wav' },
+      { name: 'monster_damaged', url: 'data/sounds/monster_damaged.wav' }
     ]);
 
   EventDispatcher.call(this);
@@ -44,7 +46,6 @@ function Game(container) {
     cameraTarget.x = scope.camera.position.x;
     scope.camera.lookAt(cameraTarget);
     console.log('follow hero camera x', scope.camera.position.x);
-    soundManager.playSound( 'hero_steps' );
   }
 
   function onKeyUp( e ) {
@@ -53,9 +54,11 @@ function Game(container) {
       if( keyCode == 37 ) {
         scope.hero.moveBackwards();
         followHero();
+        soundManager.playSound( 'hero_steps' );
       } else if( keyCode == 39 ) {
         scope.hero.moveForward();
         followHero();
+        soundManager.playSound( 'hero_steps' );
       }
     }
     else if (gameState == STATE_GAMEOVER) {
@@ -97,6 +100,10 @@ function Game(container) {
         heroTween = new TWEEN.Tween( heroSprite.position )
           .to({ x: heroSprite.position.x + offset }, duration )
           .easing( easing )
+          .onStart( function() {
+              soundManager.stopSound( 'hero_steps' );
+              soundManager.playSound( 'hero_attack' );
+          })
           .onComplete(heroAttacks),
         heroTweenBack = new TWEEN.Tween( heroSprite.position )
           .to({ x: heroSprite.position.x }, duration )

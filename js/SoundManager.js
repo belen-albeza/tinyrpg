@@ -2,7 +2,8 @@
  * toLoad = [ { url: 'data/sound.wav', name: sound } ]
  */ 
 function SoundManager( toLoad ) {
-	var audioElements = {},
+	var scope = this,
+		audioElements = {},
 		soundsToLoad = [];
 
 	toLoad.forEach(function( sound ) {
@@ -51,12 +52,20 @@ function SoundManager( toLoad ) {
 			return;
 		}
 		
-		if( sound.clonedElement !== undefined ) {
-			sound.clonedElement.pause();
-		}
+		scope.stopSound( soundName );
 
 		var cloned = sound.audioElement.cloneNode( true );
 		sound.clonedElement = cloned;
 		cloned.play();
+	}
+
+	this.stopSound = function( soundName ) {
+		var sound = audioElements[ soundName ];
+		if( sound === undefined ) {
+			return;
+		}
+		if ( sound.clonedElement !== undefined ) {
+			sound.clonedElement.pause();
+		}
 	}
 }
