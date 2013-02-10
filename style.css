@@ -9,13 +9,18 @@
 body {
 	overflow: hidden;
 	font-family: 'Courier', 'Courier New', monospace;
-	color: #fff;
-	background: #000;
+	color: #000;
+	background: #fff;
 }
 
 #game {
-  background: #eee url(/data/images/background.png);
+  text-align: center;
 }
+	#game canvas {
+		margin: 0 auto;
+		background: #eee url(/data/images/background.png);
+
+	}
 
 #stats {
 	font-weight: bold;

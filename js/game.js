@@ -27,8 +27,13 @@ function Game(container) {
   EventDispatcher.call(this);
 
   function onWindowResize() {
-    scope.width = window.innerWidth;
-    scope.height = window.innerHeight;
+    var maxWidth = 640, maxHeight = 480;
+
+    //scope.width = window.innerWidth;
+    //scope.height = window.innerHeight;
+
+    scope.width = Math.min( window.innerWidth, maxWidth );
+    scope.height = Math.min( window.innerHeight, maxHeight );
 
     scope.camera.left = 0;
     scope.camera.right = scope.width;
