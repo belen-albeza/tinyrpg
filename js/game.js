@@ -19,6 +19,7 @@ function Game(container) {
       { name: 'monster_damaged', url: 'data/sounds/monster_damaged.wav' },
       { name: 'monster_dies', url: 'data/sounds/monster_dies.wav' },
       { name: 'treasure_drop', url: 'data/sounds/treasure_drop.wav' },
+      { name: 'treasure_pick', url: 'data/sounds/treasure_pick.wav' },
       { name: 'hero_dies', url: 'data/sounds/hero_dies.wav' },
     ]);
 
@@ -224,6 +225,7 @@ function Game(container) {
       case GraphNode.TYPE_TREASURE:
         console.log('Treasure', slot.contents);
         scope.hero.earnMoney(slot.contents.money);
+		soundManager.playSound( 'treasure_pick' );
         followHero(); // update camera
         renderCharacterText('§' + slot.contents.money, '#ffff00',
           scope.hero.sprite, TILE_SIZE);
