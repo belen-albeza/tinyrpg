@@ -1,5 +1,6 @@
 function MapSprite(size, nodes) {
   var scope = this;
+  var offsetX = 0;
   THREE.Object3D.call( this );
 
   generateGeometry();
@@ -126,7 +127,7 @@ function HeroSprite(size) {
   generateGeometry();
 
   function generateGeometry() {
-    var texture = THREE.ImageUtils.loadTexture( 'data/hero_texture.png' ),
+    var texture = THREE.ImageUtils.loadTexture( 'data/images/hero.png' ),
         geometry = new THREE.PlaneGeometry( size, size ),
         material = new THREE.MeshBasicMaterial({
           color: 0xffffff, map: texture, transparent: true }),
