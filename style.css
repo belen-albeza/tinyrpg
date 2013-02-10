@@ -9,13 +9,18 @@
 body {
 	overflow: hidden;
 	font-family: 'Courier', 'Courier New', monospace;
-	color: #fff;
-	background: #000;
+	color: #000;
+	background: #fff;
 }
 
 #game {
-  background: #eee url(/data/images/background.png);
+  text-align: center;
 }
+	#game canvas {
+		margin: 0 auto;
+		background: #eee url(/data/images/background.png);
+
+	}
 
 #stats {
 	font-weight: bold;
@@ -39,6 +44,7 @@ body {
 	left: 0px;
 	bottom: 0px;
 	right: 0px;
+	color: #fff;
 
 	display: -webkit-box;
 	-webkit-box-orient: vertical;
@@ -80,4 +86,13 @@ span.money {
   transition-timing-function: ease-out;
   -webkit-transition-timing-function: ease-out;
   -moz-transition-timing-function: ease-out;
+}
+
+@media screen and (max-width: 480px) {
+	.overlay {
+		font-size: 3rem;
+	}
+	.overlay p {
+		margin: 1.5rem;
+	}
 }
