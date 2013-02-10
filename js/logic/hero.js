@@ -76,12 +76,18 @@ function Hero( map ) {
         slot: slot
       });
     } else {
+	  var previousIndex = scope.positionIndex,
+		  previousX = previousIndex * map.tileSize;
+
       scope.positionIndex = index;
-      scope.sprite.position.x = index * map.tileSize;
+      //scope.sprite.position.x = index * map.tileSize;
+	  //not updating immediately so that we have a chance to animate the update from outside
 
       scope.dispatchEvent({
         type: 'arrived',
-        slot: slot
+        slot: slot,
+		oldX: previousX,
+		newX: index * map.tileSize
       });
     }
   };
