@@ -2,21 +2,21 @@ function Monster( type, sprite, size ) {
   var scope = this;
   var types = {};
   types[Monster.TYPE_SLIME] = {
-      attack: 6,
+      attack: 10,
       defense: 2,
       energy: 10
   };
 
   types[Monster.TYPE_BICHO] = {
-      attack: 10,
-      defense: 1,
+      attack: 20,
+      defense: 5,
       energy: 30
   };
 
   types[Monster.TYPE_TRONCHO] = {
-      attack: 20,
-      defense: 8,
-      energy: 80
+      attack: 40,
+      defense: 0,
+      energy: 30
   };
 
   this.type = type;
