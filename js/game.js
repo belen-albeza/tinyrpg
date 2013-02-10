@@ -20,7 +20,7 @@ function Game(container) {
       { name: 'monster_dies', url: 'data/sounds/monster_dies.wav' },
       { name: 'treasure_drop', url: 'data/sounds/treasure_drop.wav' },
       { name: 'treasure_pick', url: 'data/sounds/treasure_pick.wav' },
-      { name: 'life_pick', url: 'data/sounds/life_pick.wav' },
+      { name: 'life_pick', url: 'data/sounds/omnomnom.wav' },
       { name: 'hero_dies', url: 'data/sounds/hero_dies.wav' },
     ]);
 
