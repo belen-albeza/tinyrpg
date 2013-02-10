@@ -40,7 +40,7 @@ function Game(container) {
     scope.camera.top = 0;
     scope.camera.bottom = scope.height;
     scope.camera.updateProjectionMatrix();
-    scope.camera.position.z = 1000;
+    scope.camera.position.z = 500;
     scope.camera.lookAt(cameraTarget);
 
     scope.renderer.setSize(scope.width, scope.height);

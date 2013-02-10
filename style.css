@@ -1,82 +1,90 @@
+@font-face {
+  font-family: 'Chelsea Market';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Chelsea Market'), local('ChelseaMarket-Regular'), url(/data/fonts/chelsea_market.woff) format('woff');
+}
+
 * {
-	padding: 0px;
-	margin: 0px;
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	box-sizing: border-box;
+  padding: 0px;
+  margin: 0px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 body {
-	overflow: hidden;
-	font-family: 'Courier', 'Courier New', monospace;
-	color: #000;
-	background: #fff;
+  overflow: hidden;
+  font-family: 'Chelsea Market', 'Courier', serif;
+  color: #000;
+  background: #fff;
 }
 
 #game {
-  xtext-align: center;
-}
-	#game canvas {
-		margin: 0 auto;
-		background: #eee url(/data/images/background.png);
+  text-align: center;
 
-	}
+}
+
+#game canvas {
+  margin: 0 auto;
+  background: #eee url(/data/images/background.png);
+  /*border: 5px solid #000;*/
+}
 
 #stats {
-	font-weight: bold;
-	position: absolute;
-	width: 60%;
-	top: 0;
-	left: 20%;
-	right: 20%;
-	color: #fff;
-	text-shadow: 1px 1px 1px #000;
-	background: rgba( 255, 255, 255, 0.5 );
-	padding: 4px;
+  position: absolute;
+  width: 60%;
+  bottom: 0;
+  left: 20%;
+  right: 20%;
+  color: #fff;
+  background: #000;
+  font-size: 1.75rem;
+  padding: 0.5rem 1rem;
 }
 
 .overlay {
-	font-size: 7rem;
-	text-align: center;
-	background: rgba(0, 0, 0, 0.7);
-	position: absolute;
-	top: 0px;
-	left: 0px;
-	bottom: 0px;
-	right: 0px;
-	color: #fff;
+  font-size: 7rem;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.7);
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  bottom: 0px;
+  right: 0px;
+  color: #fff;
 
-	display: -webkit-box;
-	-webkit-box-orient: vertical;
-	-webkit-box-pack: center;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-box-pack: center;
 
-	display: -moz-box;
-	-moz-box-orient: vertical;
-	-moz-box-pack: center;
+  display: -moz-box;
+  -moz-box-orient: vertical;
+  -moz-box-pack: center;
 
-	display: box;
-	box-orient: vertical;
-	box-pack: center;
+  display: box;
+  box-orient: vertical;
+  box-pack: center;
 }
 
 .overlay p {
-	margin: 3rem;
+  margin: 3rem;
 }
 
 span.money {
-	color: yellow;
+  color: yellow;
 }
 
 .animated {
-	-webkit-transition-property: all;
-	-webkit-transition-duration: 2s;
-	-webkit-transition-timing-function: ease-in-out;
-	-moz-transition-property: all;
-	-moz-transition-duration: 2s;
-	-moz-transition-timing-function: ease-in-out;
-	transition-property: all;
-	transition-duration: 2s;
-	transition-timing-function: ease-in-out;
+  -webkit-transition-property: all;
+  -webkit-transition-duration: 2s;
+  -webkit-transition-timing-function: ease-in-out;
+  -moz-transition-property: all;
+  -moz-transition-duration: 2s;
+  -moz-transition-timing-function: ease-in-out;
+  transition-property: all;
+  transition-duration: 2s;
+  transition-timing-function: ease-in-out;
 }
 
 .fast{
@@ -89,10 +97,10 @@ span.money {
 }
 
 @media screen and (max-width: 480px) {
-	.overlay {
-		font-size: 3rem;
-	}
-	.overlay p {
-		margin: 1.5rem;
-	}
+  .overlay {
+    font-size: 3rem;
+  }
+  .overlay p {
+    margin: 1.5rem;
+  }
 }

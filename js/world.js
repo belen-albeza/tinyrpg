@@ -50,11 +50,6 @@ function Graph() {
     addNode(new GraphNode(GraphNode.TYPE_ROAD));
     addNode(new GraphNode(GraphNode.TYPE_ROAD));
     addNode(new GraphNode(GraphNode.TYPE_ROAD));
-    addNode(new GraphNode(GraphNode.TYPE_ROAD));
-    addNode(new GraphNode(GraphNode.TYPE_ROAD));
-    addNode(new GraphNode(GraphNode.TYPE_ROAD));
-
-    addNode(new GraphNode(GraphNode.TYPE_LOCK));
     addNode(new GraphNode(GraphNode.TYPE_BOSS, { type: Monster.TYPE_TRONCHO, reward: { money: 1000 } } ));
     addNode(new GraphNode(GraphNode.TYPE_TREASURE, {money: 1000}));
     addNode(new GraphNode(GraphNode.TYPE_END));

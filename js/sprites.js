@@ -115,6 +115,7 @@ function MapSprite(size, nodes) {
                                 transparent: true
                               }));
     line.position.x = offsetX / 2 - size / 2;
+    line.position.z = -5;
     line.rotation.x = - Math.PI;
     scope.add( line );
 
