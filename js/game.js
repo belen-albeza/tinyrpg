@@ -15,6 +15,8 @@ function Game(container) {
   var soundManager = new SoundManager([
       { name: 'hero_steps', url: 'data/sounds/steps.wav' },
       { name: 'hero_attack', url: 'data/sounds/hero_attack.wav' },
+      { name: 'hero_damaged', url: 'data/sounds/hero_damaged.wav' },
+      { name: 'monster_attack', url: 'data/sounds/monster_attack.wav' },
       { name: 'monster_damaged', url: 'data/sounds/monster_damaged.wav' },
       { name: 'monster_dies', url: 'data/sounds/monster_dies.wav' },
       { name: 'hero_dies', url: 'data/sounds/hero_dies.wav' },
@@ -117,6 +119,8 @@ function Game(container) {
           .easing( easing )
           .onStart(function() {
               monsterSprite.position.z = 300;
+			  soundManager.stopSound( 'monster_damaged' );
+			  soundManager.playSound( 'monster_attack' );
           })
           .onComplete(monsterAttacks),
         monsterTweenBack = new TWEEN.Tween( monsterSprite.position )
@@ -146,6 +150,7 @@ function Game(container) {
           monster.attack - scope.hero.defense );
       scope.hero.addEnergy( - monsterInflictedDamage );
       console.log( 'monsterInflictedDamage', monsterInflictedDamage);
+	  soundManager.playSound( 'hero_damaged' );
     }
 
     function monsterMayAttackHero() {

@@ -26,14 +26,14 @@ function SoundManager( toLoad ) {
 
 		audioElement.addEventListener( 'canplaythrough', function onAudioLoaded() {
 			audioElement.removeEventListener( 'canplaythrough', onAudioLoaded, false );
-			console.log( 'loaded sound', this );
+			console.log( 'loaded sound', soundToLoad.url, this );
 			soundToLoad.loaded = true;
 			soundToLoad.audioElement = audioElement;
 			audioElements[ soundToLoad.name ] = soundToLoad;
 			loadNextSound();
 		}, false );
 			
-		sourceElement.src = soundToLoad.url;console.log( soundToLoad.url );
+		sourceElement.src = soundToLoad.url;
 		audioElement.appendChild( sourceElement );
 		audioElement.load();
 
