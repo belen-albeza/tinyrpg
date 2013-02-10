@@ -14,12 +14,13 @@ body {
 }
 
 #game {
-  xtext-align: center;
+	margin: 0 auto;
+	position: relative;
+	left: 0;
+	top; 0;
 }
 	#game canvas {
-		margin: 0 auto;
 		background: #eee url(/data/images/background.png);
-
 	}
 
 #stats {

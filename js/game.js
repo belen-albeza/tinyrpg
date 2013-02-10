@@ -35,6 +35,9 @@ function Game(container) {
     scope.width = Math.min( window.innerWidth, maxWidth );
     scope.height = Math.min( window.innerHeight, maxHeight );
 
+	container.style.width = Math.floor( scope.width ) + 'px';
+	container.style.height = Math.floor( scope.height ) + 'px';
+
     scope.camera.left = 0;
     scope.camera.right = scope.width;
     scope.camera.top = 0;
