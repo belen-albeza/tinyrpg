@@ -1,7 +1,6 @@
 function MapSprite(size, nodes) {
   var scope = this;
-  var quad = new THREE.PlaneGeometry(size, size), offsetX = 0;
-
+  var offsetX = 0;
   THREE.Object3D.call( this );
 
   generateGeometry();
@@ -14,11 +13,32 @@ function MapSprite(size, nodes) {
     colors[GraphNode.TYPE_BOSS] =  0xff0000;
     colors[GraphNode.TYPE_LOCK] =  0xcccccc;
     colors[GraphNode.TYPE_SHOP] =  0x00ff00;
+    var textures = {};
+    textures[GraphNode.TYPE_BOSS] = {};
+    textures[GraphNode.TYPE_BOSS][Monster.TYPE_BICHO] = 'bicho1.png';
+    textures[GraphNode.TYPE_BOSS][Monster.TYPE_SLIME] = 'bicho2.png';
+    textures[GraphNode.TYPE_BOSS][Monster.TYPE_TRONCHO] = 'bicho1.png';
 
     var drawable = null;
+    var materialOptions = {color: colors[node.type]};
     if (node.type != GraphNode.TYPE_ROAD) {
-      var material = new THREE.MeshBasicMaterial({color: colors[node.type]});
-      drawable = new THREE.Mesh(quad, material);
+      var texture = null;
+      if (textures[node.type]) {
+        var url = '/data/images/';
+        url += (node.type == GraphNode.TYPE_BOSS) ?
+          textures[node.type][node.contents.type] : textures[node.type];
+        var texture = THREE.ImageUtils.loadTexture(url);
+        materialOptions = {
+          map: texture,
+          color: 0xffffff,
+          transparent: true
+        };
+      }
+
+      console.log(materialOptions);
+      var material = new THREE.MeshBasicMaterial(materialOptions);
+      var geometry = new THREE.PlaneGeometry(size, size);
+      drawable = new THREE.Mesh(geometry, material);
       drawable.rotation.x = - Math.PI;
     }
     return drawable;
@@ -27,40 +47,40 @@ function MapSprite(size, nodes) {
   this.updateGeometry = function(index) {
     var geometry = generateNodeGeometry(nodes[index]);
     var slot = scope.slots.children[index];
-	var existingGeometry = slot,
-		easing = TWEEN.Easing.Exponential.Out,
-		duration = 500;
+  var existingGeometry = slot,
+    easing = TWEEN.Easing.Exponential.Out,
+    duration = 500;
 
-	var s = 0.01;
-	var tweenDisappear = null,
-		tweenAppear = null,
-		tweenFinalScale = null;
+  var s = 0.01;
+  var tweenDisappear = null,
+    tweenAppear = null,
+    tweenFinalScale = null;
 
-	tweenDisappear = new TWEEN.Tween( existingGeometry.scale )
-		.to({ x: s, y: s }, duration)
-		.easing( TWEEN.Easing.Exponential.Out )
-		.onComplete( function() {
-			while( slot.children.length > 0 ) {
-				slot.remove( slot.children[0] );
-			}
-			
-			slot.add( geometry );
-		} );
+  tweenDisappear = new TWEEN.Tween( existingGeometry.scale )
+    .to({ x: s, y: s }, duration)
+    .easing( TWEEN.Easing.Exponential.Out )
+    .onComplete( function() {
+      while( slot.children.length > 0 ) {
+        slot.remove( slot.children[0] );
+      }
 
-	tweenFinalScale = new TWEEN.Tween( existingGeometry.scale )
-		.to({ x: 1, y: 1}, duration/2)
-		.easing( TWEEN.Easing.Exponential.Out );
+      slot.add( geometry );
+    } );
 
-	tweenAppear = new TWEEN.Tween( existingGeometry.scale )
-		.to({ x: 1.5, y: 1.5 }, duration )
-		.easing( TWEEN.Easing.Elastic.In )
-		.chain( tweenFinalScale );
+  tweenFinalScale = new TWEEN.Tween( existingGeometry.scale )
+    .to({ x: 1, y: 1}, duration/2)
+    .easing( TWEEN.Easing.Exponential.Out );
+
+  tweenAppear = new TWEEN.Tween( existingGeometry.scale )
+    .to({ x: 1.5, y: 1.5 }, duration )
+    .easing( TWEEN.Easing.Elastic.In )
+    .chain( tweenFinalScale );
 
 
-	tweenDisappear.chain( tweenAppear ).start();
+  tweenDisappear.chain( tweenAppear ).start();
 
   };
-  
+
   this.getSlotSprite = function( index ) {
     return scope.slots.children[index];
   }
@@ -82,16 +102,18 @@ function MapSprite(size, nodes) {
       offsetX += 1 * size;
     });
 
-    var roadTexture = THREE.ImageUtils.loadTexture('data/road_texture.jpg' ),
-		line = new THREE.Mesh(new THREE.PlaneGeometry( offsetX, size ),
-                              new THREE.MeshBasicMaterial({color: 0xffffff, map: roadTexture }));
+    var roadTexture = THREE.ImageUtils.loadTexture('data/road_texture.jpg' );
+    var line = new THREE.Mesh(new THREE.PlaneGeometry( offsetX, size ),
+                              new THREE.MeshBasicMaterial({
+                                color: 0xffffff, map: roadTexture
+                              }));
     line.position.x = offsetX / 2 - size / 2;
     line.rotation.x = - Math.PI;
     scope.add( line );
 
-	roadTexture.wrapT = THREE.RepeatWrapping;
-	roadTexture.wrapS = THREE.RepeatWrapping;
-	roadTexture.repeat.set( scope.slots.children.length, 1 );
+  roadTexture.wrapT = THREE.RepeatWrapping;
+  roadTexture.wrapS = THREE.RepeatWrapping;
+  roadTexture.repeat.set( scope.slots.children.length, 1 );
   }
 }
 
@@ -105,9 +127,10 @@ function HeroSprite(size) {
   generateGeometry();
 
   function generateGeometry() {
-    var texture = THREE.ImageUtils.loadTexture( 'data/hero_texture.png' ),
+    var texture = THREE.ImageUtils.loadTexture( 'data/images/hero.png' ),
         geometry = new THREE.PlaneGeometry( size, size ),
-        material = new THREE.MeshBasicMaterial({ color: 0xff00ff, map: texture, transparent: true }),
+        material = new THREE.MeshBasicMaterial({
+          color: 0xffffff, map: texture, transparent: true }),
         mesh = new THREE.Mesh( geometry, material );
 
     scope.add( mesh );
@@ -141,19 +164,19 @@ function ProgressBar(width, height, color) {
 
   this.setValue = function(value) {
  
-	var finalX = value || 0.0001;
+  var finalX = value || 0.0001;
 
-	if( tween !== null ) {
-		tween.stop();
-	}
-	
-	tween = new TWEEN.Tween( mesh.scale )
-		.to({ x: finalX }, 200 )
-		.easing( TWEEN.Easing.Exponential.InOut )
-		.onUpdate(function() {
-			mesh.position.x = -width * (1 - mesh.scale.x) * 0.5;
-		})
-		.start();
+  if( tween !== null ) {
+    tween.stop();
+  }
+  
+  tween = new TWEEN.Tween( mesh.scale )
+    .to({ x: finalX }, 200 )
+    .easing( TWEEN.Easing.Exponential.InOut )
+    .onUpdate(function() {
+      mesh.position.x = -width * (1 - mesh.scale.x) * 0.5;
+    })
+    .start();
 
   }; 
 }
