@@ -6,13 +6,6 @@ function MapSprite(size, nodes) {
   generateGeometry();
 
   function generateNodeGeometry(node) {
-    var colors = [];
-    colors[GraphNode.TYPE_START] =  0xffffff;
-    colors[GraphNode.TYPE_END] = 0x00ffff;
-    colors[GraphNode.TYPE_TREASURE] = 0xffff00;
-    colors[GraphNode.TYPE_BOSS] =  0xff0000;
-    colors[GraphNode.TYPE_LOCK] =  0xcccccc;
-    colors[GraphNode.TYPE_SHOP] =  0x00ff00;
     var textures = {};
     textures[GraphNode.TYPE_BOSS] = {};
     textures[GraphNode.TYPE_BOSS][Monster.TYPE_BICHO] = 'bicho3.png';
@@ -24,23 +17,20 @@ function MapSprite(size, nodes) {
     textures[GraphNode.TYPE_END] = 'end.png';
 
     var drawable = null;
-    var materialOptions = {color: colors[node.type]};
+    var materialOptions = {};
     if (node.type != GraphNode.TYPE_ROAD) {
       var texture = null;
-      if (textures[node.type]) {
-        var url = '/data/images/';
-        url += (node.type == GraphNode.TYPE_BOSS) ?
-          textures[node.type][node.contents.type] : textures[node.type];
-        var texture = THREE.ImageUtils.loadTexture(url);
-        materialOptions = {
-          map: texture,
-          color: 0xffffff,
-          transparent: true,
-      depthWrite: false
-        };
-      }
+      var url = '/data/images/';
+      url += (node.type == GraphNode.TYPE_BOSS) ?
+        textures[node.type][node.contents.type] : textures[node.type];
+      var texture = THREE.ImageUtils.loadTexture(url);
+      materialOptions = {
+        map: texture,
+        color: 0xffffff,
+        transparent: true,
+        depthWrite: false
+      };
 
-      console.log(materialOptions);
       var material = new THREE.MeshBasicMaterial(materialOptions);
       var geometry = new THREE.PlaneGeometry(size, size);
       drawable = new THREE.Mesh(geometry, material);

@@ -59,7 +59,6 @@ function Game(container) {
       scope.hero.sprite.position.x - scope.width / 2;
     cameraTarget.x = scope.camera.position.x;
     scope.camera.lookAt(cameraTarget);
-    console.log('follow hero camera x', scope.camera.position.x);
   }
 
   function followHeroWithTransition( props ) {
@@ -74,7 +73,6 @@ function Game(container) {
       followHero();
     })
     .start();
-  console.log( 'follow with transition', props );
   }
 
   function onKeyUp( e ) {
@@ -118,8 +116,6 @@ function Game(container) {
   }
 
   function combatRound( monster, slot ) {
-    console.log('Combat round hero =', scope.hero.energy, 'monster=', monster.energy );
-    console.log('Scope hero attack', scope.hero.attack, 'monster defense', monster.defense);
     var heroSprite = scope.hero.sprite,
         monsterSprite = monster.sprite,
         easing = TWEEN.Easing.Elastic.In,
@@ -166,8 +162,6 @@ function Game(container) {
       var heroInflictedDamage = Math.max( 0,
         scope.hero.attack - monster.defense );
       monster.addEnergy( - heroInflictedDamage );
-      console.log('heroinflicteddamage', heroInflictedDamage);
-      console.log('hero attack', scope.hero.attack, 'monster def', monster.defense);
       soundManager.playSound( 'monster_damaged' );
     }
 
@@ -175,7 +169,6 @@ function Game(container) {
       var monsterInflictedDamage = Math.max( 0,
           monster.attack - scope.hero.defense );
       scope.hero.addEnergy( - monsterInflictedDamage );
-      console.log( 'monsterInflictedDamage', monsterInflictedDamage);
     soundManager.playSound( 'hero_damaged' );
     }
 
@@ -226,13 +219,11 @@ function Game(container) {
       followHero(); // update camera
       renderTextEnergy(e.requestedEnergyDelta, scope.hero.sprite, TILE_SIZE);
     }
-    console.log('Hero energy change', e.energy - e.oldEnergy);
   }
 
   function onMonsterEnergyChanged( e ) {
     var monster = e.target;
     renderTextEnergy(e.requestedEnergyDelta, monster.sprite, TILE_SIZE);
-    console.log('Monster energy change', e.energy - e.oldEnergy);
   }
 
   function onHeroDied( e ) {
@@ -249,7 +240,6 @@ function Game(container) {
 
     switch (slot.type) {
       case GraphNode.TYPE_TREASURE:
-        console.log('Treasure', slot.contents);
         scope.hero.earnMoney(slot.contents.money);
         soundManager.playSound( 'treasure_pick' );
         renderCharacterText('§' + slot.contents.money, '#000000',
@@ -257,7 +247,6 @@ function Game(container) {
         scope.map.swapSlot(slot, new GraphNode(GraphNode.TYPE_ROAD));
         break;
       case GraphNode.TYPE_END:
-        console.log('Victory!');
         gameState = STATE_VICTORY;
         scope.dispatchEvent({
           type: 'victory',
@@ -265,7 +254,6 @@ function Game(container) {
         });
         break;
       case GraphNode.TYPE_SHOP:
-        console.log('Shop');
         scope.hero.restoreEnergy();
         soundManager.playSound( 'life_pick' );
         break;
@@ -277,7 +265,6 @@ function Game(container) {
   function localToWorld(obj) {
     var local = obj.position.clone();
     local.add(scope.rootDrawable.position);
-    console.log('local x', local.x);
     return local;
   }
 
@@ -326,7 +313,6 @@ function Game(container) {
     element.style.left = x + 'px';
     element.innerHTML = '<span class="character-text">' + text + '</span>';
     element.style.top = y + 'px';
-    console.log(element);
     container.appendChild(element);
 
     if (options.animatedCss) {

@@ -44,7 +44,6 @@ function Hero( map ) {
   };
 
   function die() {
-    console.log('DEATH');
     scope.dispatchEvent({
       type: 'heroDied',
       hero: scope
@@ -104,7 +103,6 @@ function Hero( map ) {
 
   this.earnMoney = function(amount) {
     scope.inventory.money += amount;
-    console.log('money', scope.inventory.money);
     scope.dispatchEvent({ type: 'inventoryChanged', hero: scope });
   };
 
