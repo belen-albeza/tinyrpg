@@ -1,17 +1,8 @@
-
-window.onload = function() {
-  var game = new Game(document.getElementById('game')),
+function startGame(container) {
+  var game = new Game(container),
     stats = document.getElementById( 'stats' ),
     gameover = document.getElementById( 'game_over' ),
-    victory = document.getElementById('victory'),
-  soundTrack = document.getElementById( 'soundtrack' );
-  soundTrack.addEventListener('canplaythrough', function( e ) {
-    soundTrack.play();
-    game.start();
-    console.log('yujuuuu');
-  }, false);
-  soundTrack.volume = 0.2;
-
+    victory = document.getElementById('victory');
   game.addEventListener( 'heroChanged', onHeroChanged, false );
   game.addEventListener( 'gameover', onGameOver, false);
   game.addEventListener( 'victory', onVictory, false);
@@ -21,8 +12,7 @@ window.onload = function() {
   gameover.addEventListener( 'webkitTransitionEnd', onTransitionEnd, false );
   victory.addEventListener( 'webkitTransitionEnd', onTransitionEnd, false );
 
-  //game.start();
-  soundTrack.load();
+  game.start();
 
   function onHeroChanged( e ) {
     var money = formatMoney( e.hero.inventory.money );
@@ -54,4 +44,20 @@ window.onload = function() {
       this.style.visibility = 'collapse';
     }
   }
+}
+
+window.onload = function() {
+  var container = document.getElementById('game');
+  var soundTrack = document.getElementById( 'soundtrack' );
+  var loading = document.getElementById('loading');
+  soundTrack.addEventListener('canplaythrough', function( e ) {
+    soundTrack.play();
+    container.style.display = 'block';
+    loading.style.display = 'none';
+    setTimeout(function() {
+      startGame(container);
+    }, 0);
+  }, false);
+  soundTrack.volume = 0.2;
+  soundTrack.load();
 }

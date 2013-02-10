@@ -109,6 +109,14 @@ a {
   color: #666;
 }
 
+div#loading {
+  margin-top: 3rem;
+  text-align: center;
+  font-size: 2rem;
+  background: url(/data/images/loading.gif) center top no-repeat;
+  padding-top: 3rem;
+}
+
 .animated {
   -webkit-transition-property: all;
   -webkit-transition-duration: 2s;
