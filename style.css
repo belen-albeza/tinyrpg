@@ -43,7 +43,7 @@ body {
 }
 
 .overlay {
-  font-size: 4rem;
+  font-size: 3rem;
   text-align: center;
   background: rgba(0, 0, 0, 0.7);
   position: absolute;
@@ -67,7 +67,20 @@ body {
 }
 
 .overlay p {
-  margin: 3rem;
+  margin: 0.75rem;
+}
+.overlay p:first-child {
+  margin-top: 0rem;
+}
+.overlay p:last-child {
+  margin-top: 2rem;
+}
+
+a.replay {
+  background: #000;
+  color: #fff;
+  padding: 0.5rem 2rem;
+  text-decoration: none;
 }
 
 span.money {
@@ -83,6 +96,15 @@ footer {
   margin-top: 1rem;
   text-align: center;
 }
+
+footer strong {
+  font-size: 1.5rem;
+}
+
+footer p {
+  margin: 0.5rem 0rem;
+}
+
 a {
   color: #666;
 }
