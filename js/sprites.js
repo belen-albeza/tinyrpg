@@ -105,8 +105,9 @@ function HeroSprite(size) {
   generateGeometry();
 
   function generateGeometry() {
-    var geometry = new THREE.PlaneGeometry( size, size ),
-        material = new THREE.MeshBasicMaterial({ color: 0xff00ff }),
+    var texture = THREE.ImageUtils.loadTexture( 'data/hero_texture.png' ),
+        geometry = new THREE.PlaneGeometry( size, size ),
+        material = new THREE.MeshBasicMaterial({ color: 0xff00ff, map: texture, transparent: true }),
         mesh = new THREE.Mesh( geometry, material );
 
     scope.add( mesh );
