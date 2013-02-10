@@ -6,10 +6,7 @@ window.onload = function() {
     victory = document.getElementById('victory'),
 	soundTrack = document.getElementById( 'soundtrack' );
 
- /* soundTrack.addEventListener( 'canplaythrough', function( e ) {
-	  console.log('canplaythrough');
-	  game.start();
-  } );*/
+  soundTrack.volume = 0.2;
 
   game.addEventListener( 'heroChanged', onHeroChanged, false );
   game.addEventListener( 'gameover', onGameOver, false);
