@@ -1,5 +1,6 @@
 function Game(container) {
   var scope = this;
+
   var TILE_SIZE = 100;
   var cameraTarget = new THREE.Vector3(0, 0, 0);
 
@@ -10,6 +11,10 @@ function Game(container) {
 
   var gameState = STATE_EXPLORE;
   var combatTimeout = null;
+
+  var soundManager = new SoundManager([
+      { name: 'hero_steps', url: 'data/sounds/steps.wav' }
+    ]);
 
   EventDispatcher.call(this);
 
@@ -39,6 +44,7 @@ function Game(container) {
     cameraTarget.x = scope.camera.position.x;
     scope.camera.lookAt(cameraTarget);
     console.log('follow hero camera x', scope.camera.position.x);
+    soundManager.playSound( 'hero_steps' );
   }
 
   function onKeyUp( e ) {
