@@ -13,6 +13,10 @@ body {
 	background: #000;
 }
 
+#game {
+  background: #eee url(/data/images/background.png);
+}
+
 #stats {
 	font-weight: bold;
 	position: absolute;

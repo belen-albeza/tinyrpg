@@ -1,6 +1,6 @@
 function Game(container) {
   var scope = this;
-  var TILE_SIZE = 100;
+  var TILE_SIZE = 128;
   var cameraTarget = new THREE.Vector3(0, 0, 0);
 
   var STATE_EXPLORE = 'play';
@@ -291,7 +291,7 @@ function Game(container) {
   this.start = function() {
     scope.renderer = new THREE.WebGLRenderer({
       clearColor: 0x000000,
-      clearAlpha: 1
+      clearAlpha: 0
     });
     scope.scene = new THREE.Scene();
     scope.camera = new THREE.OrthographicCamera(-320, 320, 200, -200, 1, 1000);
