@@ -62,16 +62,31 @@ function Game(container) {
     console.log('follow hero camera x', scope.camera.position.x);
   }
 
+  function followHeroWithTransition( props ) {
+	var position = scope.hero.sprite.position,
+		tween = new TWEEN.Tween( position )
+		.to({ x: props.newX }, 250 )
+		.easing( TWEEN.Easing.Exponential.Out )
+		.onStart( function() {
+			position.x = props.oldX;
+		})
+		.onUpdate(function() {
+			followHero();
+		})
+		.start();
+	console.log( 'follow with transition', props );
+  }
+
   function onKeyUp( e ) {
     var keyCode = e.keyCode;
     if (gameState == STATE_EXPLORE) {
       if( keyCode == 37 ) {
         scope.hero.moveBackwards();
-        followHero();
+        //followHero();
         soundManager.playSound( 'hero_steps' );
       } else if( keyCode == 39 ) {
         scope.hero.moveForward();
-        followHero();
+        //followHero();
         soundManager.playSound( 'hero_steps' );
       }
     }
@@ -231,12 +246,13 @@ function Game(container) {
 
   function onSlotArrived(e) {
     var slot = e.slot;
+
     switch (slot.type) {
       case GraphNode.TYPE_TREASURE:
         console.log('Treasure', slot.contents);
         scope.hero.earnMoney(slot.contents.money);
-    soundManager.playSound( 'treasure_pick' );
-        followHero(); // update camera
+        soundManager.playSound( 'treasure_pick' );
+        //followHero(); // update camera
         renderCharacterText('§' + slot.contents.money, '#ffff00',
           scope.hero.sprite, TILE_SIZE);
         scope.map.swapSlot(slot, new GraphNode(GraphNode.TYPE_ROAD));
@@ -252,9 +268,11 @@ function Game(container) {
       case GraphNode.TYPE_SHOP:
         console.log('Shop');
         scope.hero.restoreEnergy();
-    soundManager.playSound( 'life_pick' );
+        soundManager.playSound( 'life_pick' );
         break;
     }
+
+	followHeroWithTransition({ oldX: e.oldX, newX: e.newX });
   }
 
   function localToWorld(obj) {
