@@ -83,7 +83,7 @@ function MapSprite(size, nodes) {
     });
 
     var roadTexture = THREE.ImageUtils.loadTexture('data/road_texture.jpg' ),
-		line = new THREE.Mesh(new THREE.PlaneGeometry(offsetX, size / 4, size ),
+		line = new THREE.Mesh(new THREE.PlaneGeometry( offsetX, size ),
                               new THREE.MeshBasicMaterial({color: 0xffffff, map: roadTexture }));
     line.position.x = offsetX / 2 - size / 2;
     line.rotation.x = - Math.PI;
@@ -91,7 +91,7 @@ function MapSprite(size, nodes) {
 
 	roadTexture.wrapT = THREE.RepeatWrapping;
 	roadTexture.wrapS = THREE.RepeatWrapping;
-	roadTexture.repeat.set( size, 1 );
+	roadTexture.repeat.set( scope.slots.children.length, 1 );
   }
 }
 
