@@ -34,9 +34,12 @@ function Graph() {
     addNode(new GraphNode(GraphNode.TYPE_ROAD));
     addNode(new GraphNode(GraphNode.TYPE_TREASURE, {money: 100}));
 
-    addNode(new GraphNode(GraphNode.TYPE_BOSS, { type: Monster.TYPE_SLIME, reward: { money:100 } } ));
+    addNode(new GraphNode(GraphNode.TYPE_BOSS, { type: Monster.TYPE_BICHO, reward: { money:100 } } ));
 
     addNode(new GraphNode(GraphNode.TYPE_ROAD));
+    addNode(new GraphNode(GraphNode.TYPE_BOSS, { type: Monster.TYPE_SLIME, reward: { money:100 } } ));
+
+
     addNode(new GraphNode(GraphNode.TYPE_ROAD));
     addNode(new GraphNode(GraphNode.TYPE_ROAD));
 

@@ -15,7 +15,7 @@ function MapSprite(size, nodes) {
     colors[GraphNode.TYPE_SHOP] =  0x00ff00;
     var textures = {};
     textures[GraphNode.TYPE_BOSS] = {};
-    textures[GraphNode.TYPE_BOSS][Monster.TYPE_BICHO] = 'bicho1.png';
+    textures[GraphNode.TYPE_BOSS][Monster.TYPE_BICHO] = 'bicho3.png';
     textures[GraphNode.TYPE_BOSS][Monster.TYPE_SLIME] = 'bicho2.png';
     textures[GraphNode.TYPE_BOSS][Monster.TYPE_TRONCHO] = 'bicho1.png';
     textures[GraphNode.TYPE_START] = 'start.png';

@@ -9,7 +9,7 @@ function Monster( type, sprite, size ) {
 
   types[Monster.TYPE_BICHO] = {
       attack: 10,
-      defense: 4,
+      defense: 1,
       energy: 30
   };
 
