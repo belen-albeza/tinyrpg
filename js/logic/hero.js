@@ -1,7 +1,7 @@
 function Hero( map ) {
   var scope = this;
   EventDispatcher.call(this);
-  scope.MAX_ENERGY = 3;
+  scope.MAX_ENERGY = 100;
   scope.positionIndex = 0;
 
   scope.sprite = new HeroSprite( map.tileSize );
@@ -16,7 +16,7 @@ function Hero( map ) {
   };
 
   scope.energy = scope.MAX_ENERGY;
-  scope.attack = 5;
+  scope.attack = 10;
   scope.defense = 5;
 
   this.addEnergy = function(value) {
