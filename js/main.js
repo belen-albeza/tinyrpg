@@ -3,7 +3,13 @@ window.onload = function() {
   var game = new Game(document.getElementById('game')),
     stats = document.getElementById( 'stats' ),
     gameover = document.getElementById( 'game_over' ),
-    victory = document.getElementById('victory');
+    victory = document.getElementById('victory'),
+	soundTrack = document.getElementById( 'soundtrack' );
+
+ /* soundTrack.addEventListener( 'canplaythrough', function( e ) {
+	  console.log('canplaythrough');
+	  game.start();
+  } );*/
 
   game.addEventListener( 'heroChanged', onHeroChanged, false );
   game.addEventListener( 'gameover', onGameOver, false);
@@ -14,6 +20,7 @@ window.onload = function() {
   gameover.addEventListener( 'webkitTransitionEnd', onTransitionEnd, false );
   victory.addEventListener( 'webkitTransitionEnd', onTransitionEnd, false );
 
+  
   game.start();
 
   function onHeroChanged( e ) {
