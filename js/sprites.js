@@ -18,6 +18,9 @@ function MapSprite(size, nodes) {
     textures[GraphNode.TYPE_BOSS][Monster.TYPE_BICHO] = 'bicho1.png';
     textures[GraphNode.TYPE_BOSS][Monster.TYPE_SLIME] = 'bicho2.png';
     textures[GraphNode.TYPE_BOSS][Monster.TYPE_TRONCHO] = 'bicho1.png';
+    textures[GraphNode.TYPE_START] = 'start.png';
+    textures[GraphNode.TYPE_TREASURE] = 'treasure.png';
+    textures[GraphNode.TYPE_SHOP] = 'food.png';
 
     var drawable = null;
     var materialOptions = {color: colors[node.type]};
@@ -102,10 +105,12 @@ function MapSprite(size, nodes) {
       offsetX += 1 * size;
     });
 
-    var roadTexture = THREE.ImageUtils.loadTexture('data/road_texture.jpg' );
+    var roadTexture = THREE.ImageUtils.loadTexture('data/images/road.png' );
     var line = new THREE.Mesh(new THREE.PlaneGeometry( offsetX, size ),
                               new THREE.MeshBasicMaterial({
-                                color: 0xffffff, map: roadTexture
+                                color: 0xffffff, 
+                                map: roadTexture,
+                                transparent: true
                               }));
     line.position.x = offsetX / 2 - size / 2;
     line.rotation.x = - Math.PI;
@@ -125,6 +130,7 @@ function HeroSprite(size) {
   THREE.Object3D.call( this );
 
   generateGeometry();
+  scope.position.z = 200;
 
   function generateGeometry() {
     var texture = THREE.ImageUtils.loadTexture( 'data/images/hero.png' ),
