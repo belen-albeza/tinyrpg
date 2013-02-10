@@ -44,6 +44,7 @@ body {
 	left: 0px;
 	bottom: 0px;
 	right: 0px;
+	color: #fff;
 
 	display: -webkit-box;
 	-webkit-box-orient: vertical;
@@ -85,4 +86,13 @@ span.money {
   transition-timing-function: ease-out;
   -webkit-transition-timing-function: ease-out;
   -moz-transition-timing-function: ease-out;
+}
+
+@media screen and (max-width: 480px) {
+	.overlay {
+		font-size: 3rem;
+	}
+	.overlay p {
+		margin: 1.5rem;
+	}
 }
