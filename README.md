@@ -1,4 +1,4 @@
 Tiny RPG
 ========
 
-Entry for Gamehack 2012
+Entry for Gamehack 2013
