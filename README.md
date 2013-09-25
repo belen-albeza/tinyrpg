@@ -1,4 +1,4 @@
 Tiny RPG
 ========
 
-Waka waka woka wi!
+Entry for Gamehack 2012
